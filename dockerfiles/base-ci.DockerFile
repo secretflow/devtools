@@ -21,17 +21,6 @@ RUN yum install -y \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && yum clean all
 
-# install Rust
-RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-
-RUN echo -e "\
-[CentOSAppStream] \n\
-name=CentOS-8.5.2111 - AppStream - mirrors.aliyun.com \n\
-baseurl=http://mirrors.aliyun.com/centos-vault/8.5.2111/AppStream/\$basearch/os/ \n\
-gpgcheck=0 \n\
-gpgkey=http://mirrors.aliyun.com/centos/RPM-GPG-KEY-CentOS-Official \n\
-" > /etc/yum.repos.d/CentOS-AppStream.repo
-
 # Upgrade pip
 RUN python3 -m pip install --upgrade pip
 
