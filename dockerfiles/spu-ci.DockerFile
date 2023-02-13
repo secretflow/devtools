@@ -3,6 +3,5 @@
 FROM secretflow/base-ci:0.1
 
 # Required by grpc
-RUN yum install -y golang
-
-
+RUN yum install -y golang \
+    && yum clean all
