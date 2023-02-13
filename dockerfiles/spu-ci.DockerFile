@@ -2,6 +2,7 @@
 # These should be consistant across all Secretflow dockers
 FROM secretflow/base-ci:0.1
 
-# install Rust
-RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+# Required by grpc
+RUN yum install -y golang
+
 
