@@ -21,6 +21,9 @@ RUN yum install -y \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && yum clean all
 
+# Add gcc to path
+ENV PATH="/opt/rh/gcc-toolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
+
 # Upgrade pip
 RUN python3 -m pip install --upgrade pip
 
