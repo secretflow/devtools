@@ -16,7 +16,7 @@ RUN yum install -y \
     gcc-toolset-${DEVTOOLSET_VERSION}-libasan-devel \
     gcc-toolset-${DEVTOOLSET_VERSION}-libubsan-devel \
     git wget unzip which libtool autoconf make \
-    cmake ninja-build nasm python38 python38-devel vim-common java-11-openjdk-devel \
+    cmake ninja-build nasm vim-common java-11-openjdk-devel \
     && echo "source scl_source enable gcc-toolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && yum clean all
@@ -24,11 +24,17 @@ RUN yum install -y \
 # Add gcc to path
 ENV PATH="/opt/rh/gcc-toolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
 
-# Upgrade pip
-RUN python3 -m pip install --upgrade pip
+# install conda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
+    && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b \
+    && rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
+    && /root/miniconda3/bin/conda init
+
+# Add conda to path
+ENV PATH="/root/miniconda3/bin:${PATH}" 
 
 # install bazel 
-RUN wget github.com/bazelbuild/bazel/releases/download/5.4.0/bazel-5.4.0-installer-linux-x86_64.sh \
+RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.0/bazel-5.4.0-installer-linux-x86_64.sh \
     && bash ./bazel-5.4.0-installer-linux-x86_64.sh && rm -f ./bazel-5.4.0-installer-linux-x86_64.sh
 
 # run as root for now
