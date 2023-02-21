@@ -19,6 +19,11 @@ rm -f compile_commands.json
 
 ln -s bazel-out/../../../external .
 
+# backup file
+cp WORKSPACE WORKSPACE_bak
+cp BUILD.bazel BUILD.bazel_bak
+cp .gitignore .gitignore_bak
+
 echo -e "\n
 load(\"@bazel_tools//tools/build_defs/repo:git.bzl\", \"git_repository\") \n
 
@@ -45,6 +50,11 @@ refresh_compile_commands(
 
 bazel run :refresh_compile_commands
 
-git checkout WORKSPACE
-git checkout .gitignore
-git checkout BUILD.bazel
+# restore from backup
+cp WORKSPACE_bak WORKSPACE
+cp BUILD.bazel_bak BUILD.bazel
+cp .gitignore_bak .gitignore
+
+rm -f WORKSPACE_bak
+rm -f BUILD.bazel_bak
+rm -f .gitignore_bak
