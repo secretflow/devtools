@@ -20,7 +20,7 @@ RUN yum install -y \
     && echo "source scl_source enable devtoolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh \
     && ln -s /usr/bin/cmake3 /usr/bin/cmake
 
-ENV PATH="/opt/rh/gcc-toolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
+ENV PATH="/opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
 
 RUN wget --no-check-certificate https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz \
     && tar zxf nasm-2.15.05.tar.gz \
