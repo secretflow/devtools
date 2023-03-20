@@ -15,7 +15,7 @@ RUN yum install -y \
     gcc-toolset-${DEVTOOLSET_VERSION}-libatomic-devel \
     gcc-toolset-${DEVTOOLSET_VERSION}-libasan-devel \
     gcc-toolset-${DEVTOOLSET_VERSION}-libubsan-devel \
-    git wget unzip which libtool autoconf make \
+    git wget unzip which libtool autoconf make lld \
     cmake ninja-build nasm vim-common java-11-openjdk-devel \
     && echo "source scl_source enable gcc-toolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh \
     && ln -s /usr/bin/python3 /usr/bin/python \

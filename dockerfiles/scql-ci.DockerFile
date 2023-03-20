@@ -1,9 +1,7 @@
-FROM secretflow/spu-ci:0.2
+FROM secretflow/spu-ci:0.3
 
 ARG GO_VERSION=1.19.6
 ARG GO_SHA256SUM="e3410c676ced327aec928303fef11385702a5562fd19d9a1750d5a2979763c3d"
-
-RUN yum install -y lld
 
 # install go
 RUN set -eux; \
