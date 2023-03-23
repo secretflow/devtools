@@ -3,6 +3,9 @@ FROM centos:centos7
 # GCC version
 ARG DEVTOOLSET_VERSION=11
 
+ARG GO_VERSION=1.19.7
+ARG GO_SHA256SUM="7a75720c9b066ae1750f6bcc7052aba70fa3813f4223199ee2a2315fd3eb533d"
+
 RUN yum install -y centos-release-scl epel-release \
     && yum clean all
 
@@ -42,6 +45,14 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_
     && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b \
     && rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
     && /root/miniconda3/bin/conda init
+
+# install go
+RUN set -eux; \
+    url="https://golang.google.cn/dl/go${GO_VERSION}.linux-amd64.tar.gz"; \
+    wget --no-check-certificate -O go.tgz "$url"; \
+    echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
+    tar -C /usr/local -xzf go.tgz; \
+    rm go.tgz;
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
