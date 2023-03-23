@@ -3,13 +3,14 @@
 FROM secretflow/ubuntu-base-ci:0.1
 
 ARG GO_VERSION=1.19.7
+ARG GO_SHA256SUM="7a75720c9b066ae1750f6bcc7052aba70fa3813f4223199ee2a2315fd3eb533d"
 
 # Required by grpc
 # install go
 RUN set -eux; \
     url="https://golang.google.cn/dl/go${GO_VERSION}.linux-amd64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
-    echo "c9c08f783325c4cf840a94333159cc937f05f75d36a8b307951d5bd959cf2ab8 *go.tgz" | sha256sum -c -; \
+    echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
     tar -C /usr/local -xzf go.tgz; \
     rm go.tgz;
 
