@@ -24,16 +24,16 @@ RUN wget --no-check-certificate https://www.nasm.us/pub/nasm/releasebuilds/2.15.
     && cd nasm-2.15.05 \
     && ./configure \
     && make install \
-    && rm -rf nasm-2.15.05 \
-    && rm -rf nasm-2.15.05.tar.gz
+    && rm -rf /nasm-2.15.05 \
+    && rm -f /nasm-2.15.05.tar.gz
 
 COPY dockerfiles/build_llvm.sh /tmp/build_llvm.sh
 RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/llvm-project-15.0.6.src.tar.xz \
     && tar xf llvm-project-15.0.6.src.tar.xz \
     && cd llvm-project-15.0.6.src/llvm \
     && sh /tmp/build_llvm.sh \
-    && rm -rf llvm-project-15.0.6.src \
-    && rm -f llvm-project-15.0.6.src.tar.xz \
+    && rm -rf /llvm-project-15.0.6.src \
+    && rm -f /llvm-project-15.0.6.src.tar.xz \
     && rm -f /tmp/build_llvm.sh
 
 # install Rust
