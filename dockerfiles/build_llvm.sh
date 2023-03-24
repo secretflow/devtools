@@ -13,6 +13,8 @@ mkdir -pv build &&
             -DLLVM_OPTIMIZED_TABLEGEN=ON \
             -DCMAKE_BUILD_TYPE=Release \
             -DLLVM_TARGETS_TO_BUILD="host" \
+            -DLLVM_INSTALL_TOOLCHAIN_ONLY=ON \
+            -DLLVM_ENABLE_RTTI=ON \
             -Wno-dev -G Ninja .. &&
       ninja
       ninja install
