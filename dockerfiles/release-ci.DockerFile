@@ -28,7 +28,7 @@ RUN wget --no-check-certificate https://www.nasm.us/pub/nasm/releasebuilds/2.15.
     && rm -rf nasm-2.15.05.tar.gz
 
 COPY dockerfiles/build_llvm.sh /tmp/build_llvm.sh
-RUN wget --no-check-certificate hhttps://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/llvm-project-15.0.6.src.tar.xz \
+RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/llvm-project-15.0.6.src.tar.xz \
     && tar xf llvm-project-15.0.6.src.tar.xz \
     && cd llvm-project-15.0.6.src/llvm \
     && mkdir build \
