@@ -5,6 +5,8 @@ mkdir -pv build &&
       cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
             -DLLVM_ENABLE_PROJECTS="lld" \
             -DLLVM_BUILD_EXTERNAL_COMPILER_RT=ON \
+            -DLLVM_INCLUDE_TOOLS=OFF\
+            -DLLVM_BUILD_UTILS=OFF\
             -DLLVM_ENABLE_EH=ON \
             -DLLVM_INCLUDE_DOCS=OFF \
             -DLLVM_INCLUDE_TESTS=OFF \
