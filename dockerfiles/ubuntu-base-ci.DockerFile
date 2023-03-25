@@ -2,11 +2,14 @@ FROM ubuntu:jammy
 
 LABEL maintainer="secretflow-contact@service.alipay.com"
 
+# change dash to bash as default shell
+RUN ln -sf /usr/bin/bash /bin/sh
+
 # retrive apt info
 RUN apt-get update
 
 RUN apt-get install -y gcc-11 g++-11 libasan6 \
-    git wget unzip autoconf make lld-15 \
+    git wget curl unzip autoconf make lld-15 \
     cmake ninja-build nasm vim-common \
     && apt-get clean \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 11 \
