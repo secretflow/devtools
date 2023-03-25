@@ -1,6 +1,6 @@
 # Base image contains c++ toolchain and python
 # These should be consistant across all Secretflow dockers
-FROM secretflow/ubuntu-base-ci:0.1
+FROM secretflow/ubuntu-base-ci:0.2
 
 ARG GO_VERSION=1.19.7
 ARG GO_SHA256SUM="7a75720c9b066ae1750f6bcc7052aba70fa3813f4223199ee2a2315fd3eb533d"
