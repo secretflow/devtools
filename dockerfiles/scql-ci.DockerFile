@@ -1,7 +1,7 @@
 FROM secretflow/spu-ci:0.3
 
-ARG GO_VERSION=1.19.7
-ARG GO_SHA256SUM="7a75720c9b066ae1750f6bcc7052aba70fa3813f4223199ee2a2315fd3eb533d"
+ARG GO_VERSION=1.19.8
+ARG GO_SHA256SUM="e1a0bf0ab18c8218805a1003fd702a41e2e807710b770e787e5979d1cf947aba"
 
 # install go
 RUN set -eux; \
@@ -11,3 +11,5 @@ RUN set -eux; \
     tar -C /usr/local -xzf go.tgz; \
     rm go.tgz;
 
+ENV GOPATH="/usr/local"
+ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
