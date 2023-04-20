@@ -33,8 +33,8 @@ RUN rm -f /root/miniconda3/lib/libstdc++.so.6 \
 RUN ln -s /root/miniconda3/bin/python3 /usr/bin/python3
 
 # install bazel 
-RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.0/bazel-5.4.0-installer-linux-x86_64.sh \
-    && bash ./bazel-5.4.0-installer-linux-x86_64.sh && rm -f ./bazel-5.4.0-installer-linux-x86_64.sh
+RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-installer-linux-x86_64.sh \
+    && bash ./bazel-5.4.1-installer-linux-x86_64.sh && rm -f ./bazel-5.4.1-installer-linux-x86_64.sh
 
 # run as root for now
 WORKDIR /home/admin/

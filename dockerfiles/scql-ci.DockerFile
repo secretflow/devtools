@@ -1,4 +1,4 @@
-FROM secretflow/spu-ci:0.3
+FROM secretflow/spu-ci:0.7
 
 ARG GO_VERSION=1.19.8
 ARG GO_SHA256SUM="e1a0bf0ab18c8218805a1003fd702a41e2e807710b770e787e5979d1cf947aba"
