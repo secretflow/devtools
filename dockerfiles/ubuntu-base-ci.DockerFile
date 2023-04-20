@@ -6,7 +6,7 @@ LABEL maintainer="secretflow-contact@service.alipay.com"
 RUN ln -sf /usr/bin/bash /bin/sh
 
 RUN apt-get update \
-    && apt-get upgrade \
+    && apt-get upgrade -y \
     && apt-get install -y gcc-11 g++-11 libasan6 \
     git wget curl unzip autoconf make lld-15 \
     cmake ninja-build nasm vim-common \
@@ -19,7 +19,9 @@ RUN apt-get update \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
     && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b \
     && rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
-    && /root/miniconda3/bin/conda init
+    && /root/miniconda3/bin/conda init \
+    && pip install -U  cryptography wheel \
+    && pip cache purge
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
