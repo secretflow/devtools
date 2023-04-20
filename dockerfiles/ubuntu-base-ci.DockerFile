@@ -20,8 +20,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_
     && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b \
     && rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
     && /root/miniconda3/bin/conda init \
-    && /root/miniconda3/bin/pip install -U cryptography wheel \
-    && /root/miniconda3/bin/pip cache purge
+    && /root/miniconda3/bin/conda update --all -y
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
