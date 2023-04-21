@@ -5,10 +5,9 @@ LABEL maintainer="secretflow-contact@service.alipay.com"
 # change dash to bash as default shell
 RUN ln -sf /usr/bin/bash /bin/sh
 
-# retrive apt info
-RUN apt-get update
-
-RUN apt-get install -y gcc-11 g++-11 libasan6 \
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y gcc-11 g++-11 libasan6 \
     git wget curl unzip autoconf make lld-15 \
     cmake ninja-build nasm vim-common \
     && apt-get clean \
@@ -20,7 +19,10 @@ RUN apt-get install -y gcc-11 g++-11 libasan6 \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
     && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b \
     && rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
-    && /root/miniconda3/bin/conda init
+    && /root/miniconda3/bin/conda init \
+    && /root/miniconda3/bin/conda update --all -y \
+    && /root/miniconda3/bin/pip list -o | cut -f1 -d' ' | tr " " "\n" | awk '{if(NR>=3)print}' | cut -d' ' -f1 | xargs -n1 /root/miniconda3/bin/pip install -U \
+    && /root/miniconda3/bin/pip cache purge
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
