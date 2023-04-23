@@ -65,9 +65,6 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && rm -f Miniconda3-latest-Linux-x86_64.sh \
     && /root/miniconda3/bin/conda init bash
 
-# Add conda to path
-ENV PATH="/root/miniconda3/bin:${PATH}"
-
 # run as root for now
 WORKDIR /home/admin/
 
