@@ -13,10 +13,14 @@ RUN yum install -y \
     devtoolset-${DEVTOOLSET_VERSION}-gcc-c++ \
     devtoolset-${DEVTOOLSET_VERSION}-binutils \
     git vim-common wget unzip which java-11-openjdk-devel.x86_64 \
-    libtool autoconf make cmake3 ninja-build \
+    libtool autoconf make ninja-build \
     && yum clean all \
     && echo "source scl_source enable devtoolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh \
     && ln -s /usr/bin/cmake3 /usr/bin/cmake
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3-linux-x86_64.sh \
+    && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr/bin --skip-license \
+    && rm -f cmake-3.26.3-linux-x86_64.sh \
 
 ENV PATH="/opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
 
