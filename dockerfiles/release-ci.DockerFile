@@ -31,14 +31,17 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3
     && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr --skip-license \
     && rm -f cmake-3.26.3-linux-x86_64.sh
 
-# default to python3
-RUN ln -sf /bin/python3 /usr/bin/python
+# install conda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && bash Miniconda3-latest-Linux-x86_64.sh -b \
+    && rm -f Miniconda3-latest-Linux-x86_64.sh \
+    && /root/miniconda3/bin/conda init bash
 
 COPY dockerfiles/build_llvm.sh /tmp/build_llvm.sh
 RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/llvm-project-15.0.6.src.tar.xz \
     && tar xf llvm-project-15.0.6.src.tar.xz \
     && cd llvm-project-15.0.6.src/llvm \
-    && sh /tmp/build_llvm.sh \
+    && bash /tmp/build_llvm.sh \
     && rm -rf /llvm-project-15.0.6.src \
     && rm -f /llvm-project-15.0.6.src.tar.xz \
     && rm -f /tmp/build_llvm.sh
@@ -64,12 +67,6 @@ ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 # install bazel 
 RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-installer-linux-x86_64.sh \
     && bash ./bazel-5.4.1-installer-linux-x86_64.sh && rm -f ./bazel-5.4.1-installer-linux-x86_64.sh
-
-# install conda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
-    && bash Miniconda3-latest-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-latest-Linux-x86_64.sh \
-    && /root/miniconda3/bin/conda init bash
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
