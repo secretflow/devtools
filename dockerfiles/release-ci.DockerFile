@@ -19,7 +19,7 @@ RUN yum install -y \
     && ln -s /usr/bin/cmake3 /usr/bin/cmake
 
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3-linux-x86_64.sh \
-    && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr/bin --skip-license \
+    && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr --skip-license \
     && rm -f cmake-3.26.3-linux-x86_64.sh
 
 ENV PATH="/opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
