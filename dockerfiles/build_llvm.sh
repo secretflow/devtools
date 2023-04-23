@@ -14,7 +14,7 @@ cmake -DCMAKE_INSTALL_PREFIX=/usr/local \
       -DLLVM_TARGETS_TO_BUILD="host" \
       -DLLVM_INSTALL_TOOLCHAIN_ONLY=ON \
       -DLLVM_ENABLE_RTTI=ON \
-      -DPYTHON_EXECUTABLE=/bin/python3 \
+      -DPython3_EXECUTABLE=/bin/python3 \
       -Wno-dev -G Ninja .. &&
       ninja install
 
