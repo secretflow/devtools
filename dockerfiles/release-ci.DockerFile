@@ -15,12 +15,7 @@ RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel.x86_64 \
     libtool autoconf make ninja-build \
     && yum clean all \
-    && echo "source scl_source enable devtoolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh \
-    && ln -s /usr/bin/cmake3 /usr/bin/cmake
-
-RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3-linux-x86_64.sh \
-    && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr --skip-license \
-    && rm -f cmake-3.26.3-linux-x86_64.sh
+    && echo "source scl_source enable devtoolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh
 
 ENV PATH="/opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
 
@@ -31,6 +26,13 @@ RUN wget --no-check-certificate https://www.nasm.us/pub/nasm/releasebuilds/2.15.
     && make install \
     && rm -rf /nasm-2.15.05 \
     && rm -f /nasm-2.15.05.tar.gz
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3-linux-x86_64.sh \
+    && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr --skip-license \
+    && rm -f cmake-3.26.3-linux-x86_64.sh
+
+# default to python3
+RUN ln -sf /bin/python3 /usr/bin/python
 
 COPY dockerfiles/build_llvm.sh /tmp/build_llvm.sh
 RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/llvm-project-15.0.6.src.tar.xz \
