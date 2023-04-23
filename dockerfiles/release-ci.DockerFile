@@ -32,15 +32,14 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3
     && rm -f cmake-3.26.3-linux-x86_64.sh
 
 COPY dockerfiles/build_llvm.sh /tmp/build_llvm.sh
+RUN ln -sf /bin/python3 /bin/python
 RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/llvm-project-15.0.6.src.tar.xz \
     && tar xf llvm-project-15.0.6.src.tar.xz \
     && cd llvm-project-15.0.6.src/llvm \
-    && ln -sf /bin/python3 /bin/python \
     && sh /tmp/build_llvm.sh \
     && rm -rf /llvm-project-15.0.6.src \
     && rm -f /llvm-project-15.0.6.src.tar.xz \
-    && rm -f /tmp/build_llvm.sh \
-    && ln -sf /bin/python2 /bin/python
+    && rm -f /tmp/build_llvm.sh
 
 # install conda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
