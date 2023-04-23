@@ -59,7 +59,7 @@ def main():
 
     print(f"{COLOR_GREEN}[1/4] Build docker image {args.name}{COLOR_END}")
     run_shell_command_with_live_output(
-        ["docker", "build", "-no-cache", ".", "-f", dockerfile, "-t", versioned_tag], "."
+        ["docker", "build", "--no-cache", ".", "-f", dockerfile, "-t", versioned_tag], "."
     )
     print(f"{COLOR_GREEN}[2/4] Tag image with latest{COLOR_END}")
     run_shell_command_with_live_output(
