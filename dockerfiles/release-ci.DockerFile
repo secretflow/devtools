@@ -4,6 +4,7 @@ FROM centos:centos7
 ARG DEVTOOLSET_VERSION=11
 
 RUN yum install -y centos-release-scl epel-release \
+    && yum update -y \
     && yum clean all
 
 # install devtools and [enable it](https://access.redhat.com/solutions/527703)
@@ -12,10 +13,14 @@ RUN yum install -y \
     devtoolset-${DEVTOOLSET_VERSION}-gcc-c++ \
     devtoolset-${DEVTOOLSET_VERSION}-binutils \
     git vim-common wget unzip which java-11-openjdk-devel.x86_64 \
-    libtool autoconf make cmake3 ninja-build \
+    libtool autoconf make ninja-build \
     && yum clean all \
     && echo "source scl_source enable devtoolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh \
     && ln -s /usr/bin/cmake3 /usr/bin/cmake
+
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3-linux-x86_64.sh \
+    && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr --skip-license \
+    && rm -f cmake-3.26.3-linux-x86_64.sh
 
 ENV PATH="/opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
 
@@ -59,10 +64,10 @@ RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1
     && bash ./bazel-5.4.1-installer-linux-x86_64.sh && rm -f ./bazel-5.4.1-installer-linux-x86_64.sh
 
 # install conda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
-    && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
-    && /root/miniconda3/bin/conda init
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
+    && bash Miniconda3-latest-Linux-x86_64.sh -b \
+    && rm -f Miniconda3-latest-Linux-x86_64.sh \
+    && /root/miniconda3/bin/conda init bash
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
