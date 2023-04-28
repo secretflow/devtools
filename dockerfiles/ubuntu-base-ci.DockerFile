@@ -41,5 +41,4 @@ RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1
 # run as root for now
 WORKDIR /home/admin/
 
-CMD ["/bin/bash"]
-
+ENTRYPOINT [ "/bin/bash", "-l" ]

@@ -74,4 +74,4 @@ ENV PATH="/root/miniconda3/bin:${PATH}"
 # run as root for now
 WORKDIR /home/admin/
 
-CMD [ "/bin/bash" ]
+ENTRYPOINT [ "/bin/bash", "-l" ]
