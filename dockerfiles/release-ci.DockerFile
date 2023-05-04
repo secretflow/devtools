@@ -44,7 +44,7 @@ RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/do
     && sh /tmp/build_llvm.sh \
     && rm -rf /llvm-project-15.0.6.src \
     && rm -f /llvm-project-15.0.6.src.tar.xz \
-    && rm -f /tmp/build_llvm.sh
+    && rm -f /tmp/build_llvm.sh \
     && ln -s /usr/local/bin/lld /opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin/ld.lld
 
 # install Rust
