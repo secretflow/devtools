@@ -21,8 +21,8 @@ BAZEL_DISK_CACHE_PATH=$1
 
 # As a courtesy, compute and print some approximate stats.
 total_file_count=$(find "$BAZEL_DISK_CACHE_PATH" -type f | wc -l)
-stale_file_count=$(find "$BAZEL_DISK_CACHE_PATH" -type f -atime +5 | wc -l)
+stale_file_count=$(find "$BAZEL_DISK_CACHE_PATH" -type f -atime +3 | wc -l)
 echo "Removing $stale_file_count files out of $total_file_count total."
 
 # Just re-running the find is simpler than managing any state.
-#find "$BAZEL_DISK_CACHE_PATH" -type f -atime +30 -delete
+find "$BAZEL_DISK_CACHE_PATH" -type f -atime +3 -delete
