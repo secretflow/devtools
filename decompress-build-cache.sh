@@ -23,6 +23,12 @@ if test -f "$CACHE_FILE"; then
     cd ~/.cache
     tar -xzf $FILENAME.tar.gz
     rm -f $FILENAME.tar.gz
+    stale_file_count=$(find "$FILENAME" -type f -atime +5 | wc -l)
+    echo "Current $stale_file_count after decompress." 
+    echo "Touching"
+    find "$FILENAME" -type f -exec touch -a -d '-1 week' {} +
+    stale_file_count=$(find "$FILENAME" -type f -atime +5 | wc -l)
+    echo "New $stale_file_count after touch." 
 else
     echo "$CACHE_FILE does not exist"
 fi
