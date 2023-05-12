@@ -21,9 +21,9 @@ CACHE_FILE=~/.cache/$FILENAME.tar.gz
 TOUCH_FLAGS=-a
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    TOUCH_FLAGS=$TOUCH_FLAGS -d '-1 week'
+    TOUCH_FLAGS+=" -d '-1 week'"
 else
-    TOUCH_FLAGS=$TOUCH_FLAGS -a -A-990000
+    TOUCH_FLAGS+=" -a -A-990000"
 fi
 
 if test -f "$CACHE_FILE"; then
