@@ -18,14 +18,6 @@
 FILENAME=$1
 CACHE_FILE=~/.cache/$FILENAME.tar.gz
 
-TOUCH_FLAGS=-a
-
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-    TOUCH_FLAGS+=" -d '-1 week'"
-else
-    TOUCH_FLAGS+=" -a -A-990000"
-fi
-
 if test -f "$CACHE_FILE"; then
     echo "$CACHE_FILE exists."
     cd ~/.cache
@@ -34,7 +26,12 @@ if test -f "$CACHE_FILE"; then
     stale_file_count=$(find "$FILENAME" -type f -atime +3 | wc -l)
     echo "Current $stale_file_count after decompress." 
     echo "Touching"
-    find "$FILENAME" -type f -exec touch $TOUCH_FLAGS {} +
+    
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        find "$FILENAME" -type f -exec touch -a -d '-1 week' {} +
+    else
+        find "$FILENAME" -type f -exec touch -a -A-990000 {} +
+    fi
     stale_file_count=$(find "$FILENAME" -type f -atime +3 | wc -l)
     echo "New $stale_file_count after touch." 
 else
