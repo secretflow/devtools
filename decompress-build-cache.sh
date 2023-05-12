@@ -19,21 +19,19 @@ FILENAME=$1
 CACHE_FILE=~/.cache/$FILENAME.tar.gz
 
 if test -f "$CACHE_FILE"; then
-    echo "$CACHE_FILE exists."
+    echo "$CACHE_FILE exists. Decompressing..."
     cd ~/.cache
     tar -xzf $FILENAME.tar.gz
     rm -f $FILENAME.tar.gz
-    stale_file_count=$(find "$FILENAME" -type f -atime +3 | wc -l)
-    echo "Current $stale_file_count after decompress." 
-    echo "Touching"
-    
+
+    echo "Fixing timestamp...."
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         find "$FILENAME" -type f -exec touch -a -d '-1 week' {} +
     else
         find "$FILENAME" -type f -exec touch -a -A-990000 {} +
     fi
-    stale_file_count=$(find "$FILENAME" -type f -atime +3 | wc -l)
-    echo "New $stale_file_count after touch." 
+    
+    echo "Done"
 else
     echo "$CACHE_FILE does not exist"
 fi
