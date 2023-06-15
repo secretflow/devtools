@@ -2,6 +2,10 @@ FROM ubuntu:jammy
 
 LABEL maintainer="secretflow-contact@service.alipay.com"
 
+ENV TZ=Asia/Shanghai
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # change dash to bash as default shell
 RUN ln -sf /usr/bin/bash /bin/sh
 
