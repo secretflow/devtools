@@ -10,7 +10,7 @@ ARG GO_SHA256SUM="7a75720c9b066ae1750f6bcc7052aba70fa3813f4223199ee2a2315fd3eb53
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y git wget \
+    && apt-get install -y git wget unzip \
     && apt-get clean
 
 # install bazel 
