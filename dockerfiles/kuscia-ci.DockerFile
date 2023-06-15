@@ -13,10 +13,6 @@ RUN apt-get update \
     && apt-get install -y git wget unzip gcc \
     && apt-get clean
 
-# install bazel 
-RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-installer-linux-x86_64.sh \
-    && bash ./bazel-5.4.1-installer-linux-x86_64.sh && rm -f ./bazel-5.4.1-installer-linux-x86_64.sh
-
 # install go
 RUN set -eux; \
     url="https://golang.google.cn/dl/go${GO_VERSION}.linux-amd64.tar.gz"; \
