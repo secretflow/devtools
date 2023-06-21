@@ -21,7 +21,7 @@ RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel.aarch64 \
     libtool autoconf make ninja-build \
     && yum clean all \
-    && echo "source scl_source enable devtoolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh
+    && echo "source scl_source enable gcc-toolset-${DEVTOOLSET_VERSION}" > /etc/profile.d/enable_gcc_toolset.sh
 
 ENV PATH="/opt/rh/gcc-toolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
 
@@ -51,7 +51,8 @@ ENV GOPATH="/usr/local"
 ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 
 # install bazel 
-RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-linux-arm64 \
+# RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-linux-arm64 \
+RUN wget https://mirrors.huaweicloud.com/bazel/5.4.1/bazel-5.4.1-linux-arm64 \
     && mv bazel-5.4.1-linux-arm64 /usr/bin/bazel \
     && chmod +x /usr/bin/bazel
 
