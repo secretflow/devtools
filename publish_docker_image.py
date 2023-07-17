@@ -19,7 +19,7 @@ import os
 import subprocess
 
 
-def run_shell_command_with_live_output(cmd, cwd):
+def _run_shell_command_with_live_output(cmd, cwd):
     print(cmd)
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cwd)
     for line in p.stdout:
@@ -27,6 +27,19 @@ def run_shell_command_with_live_output(cmd, cwd):
     p.wait()
     status = p.poll()
     assert status == 0
+
+def _check_is_multiarch_dockerfile(file):
+    with open(file, "r") as df:
+        if "TARGETPLATFORM" in df:
+            return True
+        else:
+            return False
+        
+def _create_docker_buildx():
+    result = subprocess.Popen("docker buildx inspect sf-image-builder --bootstrap")
+    if result.returncode != 0:
+        _run_shell_command_with_live_output(["docker", "buildx", "create", "--name", "sf-image-builder", "--platform", "linux/amd64,linux/arm64"])
+
 
 
 COLOR_GREEN = "\033[92m"
@@ -58,17 +71,21 @@ def main():
     latest_tag = f"secretflow/{args.name}:latest"
 
     print(f"{COLOR_GREEN}[1/4] Build docker image {args.name}{COLOR_END}")
-    run_shell_command_with_live_output(
+    if _check_is_multiarch_dockerfile(dockerfile):
+        print(f"{COLOR_GREEN}Creating buildx")
+        _create_docker_buildx()
+
+    _run_shell_command_with_live_output(
         ["docker", "build", "--no-cache", ".", "-f", dockerfile, "-t", versioned_tag], "."
     )
     print(f"{COLOR_GREEN}[2/4] Tag image with latest{COLOR_END}")
-    run_shell_command_with_live_output(
+    _run_shell_command_with_live_output(
         ["docker", "tag", versioned_tag, latest_tag], "."
     )
     print(f"{COLOR_GREEN}[3/4] Push versioned tag to registry{COLOR_END}")
-    run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
+    _run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
     print(f"{COLOR_GREEN}[4/4] Push latest tag to registry{COLOR_END}")
-    run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
+    _run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
 
 
 if __name__ == "__main__":

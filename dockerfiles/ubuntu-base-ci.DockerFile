@@ -21,7 +21,7 @@ RUN apt-get update \
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then apt install -y nasm ; fi
 
 # install conda
-RUN if [ "$TARGETPLATFORM" = "linux/arm64 " ] ; then CONDA_ARCH=aarch64 ; else CONDA_ARCH=x86_64 ; fi \
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CONDA_ARCH=x86_64 ; fi \
     && wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.5.2-0-Linux-$CONDA_ARCH.sh \
     && bash Miniconda3-py38_23.5.2-0-Linux-$CONDA_ARCH.sh -b \
     && rm -f Miniconda3-py38_23.5.2-0-Linux-$CONDA_ARCH.sh \
@@ -41,7 +41,7 @@ RUN rm -f /root/miniconda3/lib/libstdc++.so.6 \
 RUN ln -s /root/miniconda3/bin/python3 /usr/bin/python3
 
 # install bazel 
-RUN if [ "$TARGETPLATFORM" = "linux/arm64 " ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=x86_64 ; fi \
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=x86_64 ; fi \
     && wget https://mirrors.huaweicloud.com/bazel/5.4.1/bazel-5.4.1-linux-$BAZEL_ARCH \
     && mv bazel-5.4.1-linux-$BAZEL_ARCH /usr/bin/bazel \
     && chmod +x /usr/bin/bazel
