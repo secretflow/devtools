@@ -112,7 +112,6 @@ def main():
                 "build",
                 "--platform",
                 "linux/amd64,linux/arm64",
-                "--no-cache",
                 ".",
                 "-f",
                 dockerfile,
