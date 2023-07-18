@@ -38,7 +38,7 @@ def _check_is_multiarch_dockerfile(file):
 def _create_docker_buildx():
     result = subprocess.Popen("docker buildx inspect sf-image-builder --bootstrap")
     if result.returncode != 0:
-        _run_shell_command_with_live_output(["docker", "buildx", "create", "--name", "sf-image-builder", "--platform", "linux/amd64,linux/arm64"])
+        _run_shell_command_with_live_output(["docker", "buildx", "create", "--name", "sf-image-builder", "--platform", "linux/amd64,linux/arm64", "--use"])
 
 
 
@@ -74,10 +74,18 @@ def main():
     if _check_is_multiarch_dockerfile(dockerfile):
         print(f"{COLOR_GREEN}Creating buildx")
         _create_docker_buildx()
-
-    _run_shell_command_with_live_output(
-        ["docker", "build", "--no-cache", ".", "-f", dockerfile, "-t", versioned_tag], "."
-    )
+        # Build using buildx
+        _run_shell_command_with_live_output(
+            ["docker", "buildx", "build", "--platform", "linux/amd64,linux/arm64", "--no-cache", ".", "-f", dockerfile, "-t", versioned_tag], "."
+        )
+        # Export multi-arch image
+        _run_shell_command_with_live_output(
+            ["docker", "buildx", "build", ".", "-f", dockerfile, "-t", versioned_tag, "--load"], "."
+        )
+    else:
+        _run_shell_command_with_live_output(
+            ["docker", "build", "--no-cache", ".", "-f", dockerfile, "-t", versioned_tag], "."
+        )
     print(f"{COLOR_GREEN}[2/4] Tag image with latest{COLOR_END}")
     _run_shell_command_with_live_output(
         ["docker", "tag", versioned_tag, latest_tag], "."
