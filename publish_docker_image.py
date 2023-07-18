@@ -67,9 +67,11 @@ def main():
     versioned_tag = f"secretflow/{args.name}:{args.tag}"
     latest_tag = f"secretflow/{args.name}:latest"
 
-    print(f"{COLOR_GREEN}[1/4] Build docker image {args.name}{COLOR_END}")
+    print(f"{COLOR_GREEN}Build docker image {args.name}{COLOR_END}")
+
     if _check_is_multiarch_dockerfile(dockerfile):
         print(f"{COLOR_GREEN}Creating buildx")
+        is_multi_arch = True
         _run_shell_command_with_live_output(
             [
                 "docker",
@@ -98,21 +100,25 @@ def main():
                 dockerfile,
                 "-t",
                 versioned_tag,
+                "--push"
             ],
             ".",
         )
-        # Export multi-arch image
+        print(f"{COLOR_GREEN}Build latest docker image {args.name}{COLOR_END}")
         _run_shell_command_with_live_output(
             [
                 "docker",
                 "buildx",
                 "build",
+                "--platform",
+                "linux/amd64,linux/arm64",
+                "--no-cache",
                 ".",
                 "-f",
                 dockerfile,
                 "-t",
-                versioned_tag,
-                "--load",
+                latest_tag,
+                "--push"
             ],
             ".",
         )
@@ -130,14 +136,15 @@ def main():
             ],
             ".",
         )
-    print(f"{COLOR_GREEN}[2/4] Tag image with latest{COLOR_END}")
-    _run_shell_command_with_live_output(
-        ["docker", "tag", versioned_tag, latest_tag], "."
-    )
-    print(f"{COLOR_GREEN}[3/4] Push versioned tag to registry{COLOR_END}")
-    _run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
-    print(f"{COLOR_GREEN}[4/4] Push latest tag to registry{COLOR_END}")
-    _run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
+        print(f"{COLOR_GREEN}[2/4] Tag image with latest{COLOR_END}")
+        _run_shell_command_with_live_output(
+            ["docker", "tag", versioned_tag, latest_tag], "."
+        )
+        print(f"{COLOR_GREEN}[3/4] Push versioned tag to registry{COLOR_END}")
+        _run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
+        print(f"{COLOR_GREEN}[4/4] Push latest tag to registry{COLOR_END}")
+        _run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
+    
 
 
 if __name__ == "__main__":
