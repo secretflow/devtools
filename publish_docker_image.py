@@ -19,14 +19,24 @@ import os
 import subprocess
 
 
-def run_shell_command_with_live_output(cmd, cwd):
+def _run_shell_command_with_live_output(cmd, cwd, check=True):
     print(cmd)
     p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cwd)
     for line in p.stdout:
         print(line.decode("utf-8").rstrip())
     p.wait()
     status = p.poll()
-    assert status == 0
+    if check:
+        assert status == 0
+
+
+def _check_is_multiarch_dockerfile(file):
+    with open(file, "r") as df:
+        content = df.read()
+        if "TARGETPLATFORM" in content:
+            return True
+        else:
+            return False
 
 
 COLOR_GREEN = "\033[92m"
@@ -57,18 +67,83 @@ def main():
     versioned_tag = f"secretflow/{args.name}:{args.tag}"
     latest_tag = f"secretflow/{args.name}:latest"
 
-    print(f"{COLOR_GREEN}[1/4] Build docker image {args.name}{COLOR_END}")
-    run_shell_command_with_live_output(
-        ["docker", "build", "--no-cache", ".", "-f", dockerfile, "-t", versioned_tag], "."
-    )
-    print(f"{COLOR_GREEN}[2/4] Tag image with latest{COLOR_END}")
-    run_shell_command_with_live_output(
-        ["docker", "tag", versioned_tag, latest_tag], "."
-    )
-    print(f"{COLOR_GREEN}[3/4] Push versioned tag to registry{COLOR_END}")
-    run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
-    print(f"{COLOR_GREEN}[4/4] Push latest tag to registry{COLOR_END}")
-    run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
+    print(f"{COLOR_GREEN}Build docker image {args.name}{COLOR_END}")
+
+    if _check_is_multiarch_dockerfile(dockerfile):
+        print(f"{COLOR_GREEN}Creating buildx")
+        is_multi_arch = True
+        _run_shell_command_with_live_output(
+            [
+                "docker",
+                "buildx",
+                "create",
+                "--name",
+                "sf-image-builder",
+                "--platform",
+                "linux/amd64,linux/arm64",
+                "--use",
+            ],
+            ".",
+            check=False,
+        )
+        # Build using buildx
+        _run_shell_command_with_live_output(
+            [
+                "docker",
+                "buildx",
+                "build",
+                "--platform",
+                "linux/amd64,linux/arm64",
+                "--no-cache",
+                ".",
+                "-f",
+                dockerfile,
+                "-t",
+                versioned_tag,
+                "--push"
+            ],
+            ".",
+        )
+        print(f"{COLOR_GREEN}Build latest docker image {args.name}{COLOR_END}")
+        _run_shell_command_with_live_output(
+            [
+                "docker",
+                "buildx",
+                "build",
+                "--platform",
+                "linux/amd64,linux/arm64",
+                ".",
+                "-f",
+                dockerfile,
+                "-t",
+                latest_tag,
+                "--push"
+            ],
+            ".",
+        )
+    else:
+        _run_shell_command_with_live_output(
+            [
+                "docker",
+                "build",
+                "--no-cache",
+                ".",
+                "-f",
+                dockerfile,
+                "-t",
+                versioned_tag,
+            ],
+            ".",
+        )
+        print(f"{COLOR_GREEN}[2/4] Tag image with latest{COLOR_END}")
+        _run_shell_command_with_live_output(
+            ["docker", "tag", versioned_tag, latest_tag], "."
+        )
+        print(f"{COLOR_GREEN}[3/4] Push versioned tag to registry{COLOR_END}")
+        _run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
+        print(f"{COLOR_GREEN}[4/4] Push latest tag to registry{COLOR_END}")
+        _run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
+    
 
 
 if __name__ == "__main__":

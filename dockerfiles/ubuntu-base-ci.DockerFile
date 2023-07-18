@@ -2,6 +2,8 @@ FROM ubuntu:jammy
 
 LABEL maintainer="secretflow-contact@service.alipay.com"
 
+ARG TARGETPLATFORM
+
 # change dash to bash as default shell
 RUN ln -sf /usr/bin/bash /bin/sh
 
@@ -15,10 +17,14 @@ RUN apt-get update \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 11 \
     && ln -s /usr/bin/ld.lld-15 /usr/bin/ld.lld
 
+# amd64 is only reqiured on amd64 platform
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then apt install -y nasm ; fi
+
 # install conda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
-    && bash Miniconda3-py38_23.1.0-1-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-py38_23.1.0-1-Linux-x86_64.sh \
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CONDA_ARCH=x86_64 ; fi \
+    && wget https://repo.anaconda.com/miniconda/Miniconda3-py38_23.5.2-0-Linux-$CONDA_ARCH.sh \
+    && bash Miniconda3-py38_23.5.2-0-Linux-$CONDA_ARCH.sh -b \
+    && rm -f Miniconda3-py38_23.5.2-0-Linux-$CONDA_ARCH.sh \
     && /root/miniconda3/bin/conda init \
     && /root/miniconda3/bin/conda update --all -y \
     && /root/miniconda3/bin/pip list -o | cut -f1 -d' ' | tr " " "\n" | awk '{if(NR>=3)print}' | cut -d' ' -f1 | xargs -n1 /root/miniconda3/bin/pip install -U \
@@ -35,8 +41,10 @@ RUN rm -f /root/miniconda3/lib/libstdc++.so.6 \
 RUN ln -s /root/miniconda3/bin/python3 /usr/bin/python3
 
 # install bazel 
-RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-installer-linux-x86_64.sh \
-    && bash ./bazel-5.4.1-installer-linux-x86_64.sh && rm -f ./bazel-5.4.1-installer-linux-x86_64.sh
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=x86_64 ; fi \
+    && wget https://mirrors.huaweicloud.com/bazel/5.4.1/bazel-5.4.1-linux-$BAZEL_ARCH \
+    && mv bazel-5.4.1-linux-$BAZEL_ARCH /usr/bin/bazel \
+    && chmod +x /usr/bin/bazel
 
 # run as root for now
 WORKDIR /home/admin/
