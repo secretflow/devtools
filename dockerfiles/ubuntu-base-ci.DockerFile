@@ -42,9 +42,12 @@ RUN ln -s /root/miniconda3/bin/python3 /usr/bin/python3
 
 # install bazel 
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=x86_64 ; fi \
-    && wget https://mirrors.huaweicloud.com/bazel/5.4.1/bazel-5.4.1-linux-$BAZEL_ARCH \
+    && wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-linux-$BAZEL_ARCH \
     && mv bazel-5.4.1-linux-$BAZEL_ARCH /usr/bin/bazel \
-    && chmod +x /usr/bin/bazel
+    && chmod +x /usr/bin/bazel \
+    && wget https://github.com/bazelbuild/bazel/releases/download/6.2.1/bazel-6.2.1-linux-$BAZEL_ARCH \
+    && mv bazel-5.4.1-linux-$BAZEL_ARCH /usr/bin/bazel-5.4.1-linux-$BAZEL_ARCH \
+    && chmod +x /usr/bin/bazel-5.4.1-linux-$BAZEL_ARCH
 
 # run as root for now
 WORKDIR /home/admin/
