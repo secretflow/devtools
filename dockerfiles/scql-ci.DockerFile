@@ -1,4 +1,4 @@
-FROM secretflow/spu-ci:0.7
+FROM secretflow/spu-ci:0.8
 
 ARG GO_VERSION=1.19.10
 ARG GO_SHA256SUM="8b045a483d3895c6edba2e90a9189262876190dbbd21756870cdd63821810677"
@@ -13,3 +13,5 @@ RUN set -eux; \
 
 ENV GOPATH="/usr/local"
 ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
+
+ENTRYPOINT ["/bin/bash", "-l", "-c"] 
