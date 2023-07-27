@@ -66,8 +66,12 @@ ENV GOPATH="/usr/local"
 ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 
 # install bazel 
-RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-installer-linux-x86_64.sh \
-    && bash ./bazel-5.4.1-installer-linux-x86_64.sh && rm -f ./bazel-5.4.1-installer-linux-x86_64.sh
+RUN wget https://github.com/bazelbuild/bazel/releases/download/5.4.1/bazel-5.4.1-linux-x86_64 \
+    && mv bazel-5.4.1-linux-x86_64 /usr/bin/bazel \
+    && chmod +x /usr/bin/bazel \
+    && wget https://github.com/bazelbuild/bazel/releases/download/6.2.1/bazel-6.2.1-linux-x86_64 \
+    && mv bazel-6.2.1-linux-x86_64 /usr/bin/bazel-6.2.1-linux-x86_64 \
+    && chmod +x /usr/bin/bazel-6.2.1-linux-x86_64
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
