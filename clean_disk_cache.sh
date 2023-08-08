@@ -23,8 +23,8 @@ SIZE=$(du -sk "$BAZEL_DISK_CACHE_PATH" | cut -f1)
 
 echo "Bazel cache dir size = $SIZE KB"
 
-# 1.5GB = 1572864KB
-if [[ $SIZE -gt 1572864 ]]; then
+# 5GB = 5242880KB
+if [[ $SIZE -gt 5242880 ]]; then
     echo "cache dir over size, try pruning"
     # As a courtesy, compute and print some approximate stats.
     total_file_count=$(find "$BAZEL_DISK_CACHE_PATH" -type f | wc -l)
