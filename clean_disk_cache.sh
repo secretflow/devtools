@@ -19,7 +19,7 @@ set -eu
 
 BAZEL_DISK_CACHE_PATH=$1
 
-SIZE =$(du -sk "$BAZEL_DISK_CACHE_PATH" | cut -f1)
+SIZE=$(du -sk "$BAZEL_DISK_CACHE_PATH" | cut -f1)
 
 echo "Bazel cache dir size = $SIZE KB"
 
