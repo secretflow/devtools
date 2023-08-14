@@ -13,5 +13,3 @@ RUN set -eux; \
 
 ENV GOPATH="/usr/local"
 ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
-
-ENTRYPOINT ["/bin/bash", "-l", "-c"] 
