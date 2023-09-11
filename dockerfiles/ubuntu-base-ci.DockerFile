@@ -33,9 +33,8 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CO
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
 
-# Add gcc-11 libstdc++ to miniconda
-RUN rm -f /root/miniconda3/lib/libstdc++.so.6 \
-    && ln -s /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.30 /root/miniconda3/lib/libstdc++.so.6
+# Update libstdc++
+RUN conda install -c conda-forge libstdcxx-ng
 
 # This is due to a stupid bazel build https://github.com/bazelbuild/rules_python/issues/691
 RUN ln -s /root/miniconda3/bin/python3 /usr/bin/python3
