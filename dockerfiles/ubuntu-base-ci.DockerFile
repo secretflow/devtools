@@ -7,15 +7,23 @@ ARG TARGETPLATFORM
 # change dash to bash as default shell
 RUN ln -sf /usr/bin/bash /bin/sh
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y gcc-11 g++-11 libasan6 \
+RUN apt update \
+    && apt upgrade -y \
+    && apt install -y gcc-11 g++-11 libasan6 \
     git wget curl unzip autoconf make lld-15 \
     cmake ninja-build nasm vim-common libgl1 libglib2.0-0 \
-    && apt-get clean \
-    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 11 \
-    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 11 \
-    && ln -s /usr/bin/ld.lld-15 /usr/bin/ld.lld
+    && apt clean \
+    && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100 \
+    && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
+    && update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld 100 
+
+# clang is required on arm64 platform
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then apt install -y clang-15 \
+    && apt clean \
+    && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-15 100 \
+    && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-15 100 \
+; fi
+
 
 # amd64 is only reqiured on amd64 platform
 RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then apt install -y nasm ; fi
