@@ -44,9 +44,6 @@ ENV PATH="/root/miniconda3/bin:${PATH}"
 # Update libstdc++
 RUN conda install -c conda-forge libstdcxx-ng
 
-# This is due to a stupid bazel build https://github.com/bazelbuild/rules_python/issues/691
-RUN ln -s /root/miniconda3/bin/python3 /usr/bin/python3
-
 # install bazel 
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=amd64 ; fi \
     && wget https://github.com/bazelbuild/bazelisk/releases/download/v1.18.0/bazelisk-linux-$BAZEL_ARCH \
