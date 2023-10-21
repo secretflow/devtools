@@ -18,7 +18,7 @@ RUN apt update \
     && update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-15 100 
 
 # clang is required on arm64 platform
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then apt install -y clang-15 \
+RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then apt install -y clang-15 \
     && apt clean \
     && update-alternatives --install /usr/bin/clang clang /usr/bin/clang-15 100 \
     && update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-15 100 \
