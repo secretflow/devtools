@@ -5,7 +5,6 @@ ARG GO_SHA256SUM="73cac0215254d0c7d1241fa40837851f3b9a8a742d0b54714cbdfb3feaf8f0
 
 # install go
 RUN set -eux; \
-    rm -rf /usr/local/go; \
     url="https://golang.google.cn/dl/go${GO_VERSION}.linux-amd64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
     echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
