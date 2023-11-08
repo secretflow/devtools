@@ -51,8 +51,8 @@ RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/do
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install go
-ARG GO_VERSION=1.19.12
-ARG GO_SHA256SUM="48e4fcfb6abfdaa01aaf1429e43bdd49cea5e4687bd5f5b96df1e193fcfd3e7e"
+ARG GO_VERSION=1.21.4
+ARG GO_SHA256SUM="73cac0215254d0c7d1241fa40837851f3b9a8a742d0b54714cbdfb3feaf8f0af"
 
 # install go
 RUN set -eux; \
