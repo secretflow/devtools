@@ -1,4 +1,4 @@
-FROM secretflow/spu-ci:0.9
+FROM secretflow/ubuntu-base-ci:0.8
 
 ARG GO_VERSION=1.21.4
 ARG GO_SHA256SUM="73cac0215254d0c7d1241fa40837851f3b9a8a742d0b54714cbdfb3feaf8f0af"
