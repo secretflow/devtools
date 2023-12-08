@@ -63,9 +63,10 @@ def main():
 
     args = parser.parse_args()
 
-    name, _ = os.path.splitext(args.file)
+    fname = os.path.split(args.file)
+    name, _ = os.path.splitext(fname[-1])
 
-    dockerfile = os.path.join("dockerfiles", f"{args.file}")
+    dockerfile = os.path.join("dockerfiles", f"{fname[-1]}")
     versioned_tag = f"secretflow/{name}:{args.tag}"
     latest_tag = f"secretflow/{name}:latest"
 
