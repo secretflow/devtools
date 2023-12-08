@@ -32,14 +32,14 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then apt install -y nasm ; fi
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CONDA_ARCH=x86_64 ; fi \
     && wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh \
     && bash Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh -b \
-    && rm -f Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh \
-    && /root/miniconda3/bin/conda init bash
+    && rm -f Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
 
 # Create python 3.8 env
-RUN conda create -n py3.8 python=3.8
+RUN conda init bash \
+    conda create -n py3.8 python=3.8 
 
 # install bazel 
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=amd64 ; fi \
