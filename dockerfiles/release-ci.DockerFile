@@ -19,13 +19,14 @@ RUN yum install -y \
 
 ENV PATH="/opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin:${PATH}" 
 
-RUN wget --no-check-certificate https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz \
-    && tar zxf nasm-2.15.05.tar.gz \
-    && cd nasm-2.15.05 \
+RUN wget --no-check-certificate https://www.nasm.us/pub/nasm/releasebuilds/2.16.01/nasm-2.16.01.tar.gz \
+    && tar zxf nasm-2.16.01.tar.gz \
+    && rm -f nasm-2.16.01.tar.gz \
+    && cd nasm-2.16.01 \
     && ./configure \
     && make install \
-    && rm -rf /nasm-2.15.05 \
-    && rm -f /nasm-2.15.05.tar.gz
+    && cd .. \
+    && rm -rf nasm-2.16.01
 
 RUN wget https://github.com/Kitware/CMake/releases/download/v3.26.3/cmake-3.26.3-linux-x86_64.sh \
     && sh cmake-3.26.3-linux-x86_64.sh --prefix=/usr --skip-license \
