@@ -23,6 +23,7 @@ jobs:
       run: |
         for file in ${{ steps.changed-docker-files.outputs.all_changed_files }}; do
           echo "$file was changed"
+          ./publish_docker_image.py --file $file --tag $(date +%Y%m%d)
         done
     # - name: Build the Docker image
     #   run: docker build . --file Dockerfile --tag my-image-name:$(date +%Y%m%d)
