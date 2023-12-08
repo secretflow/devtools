@@ -39,7 +39,7 @@ ENV PATH="/root/miniconda3/bin:${PATH}"
 
 # Create python 3.8 env
 RUN conda init bash \
-    conda create -n py3.8 python=3.8 
+    && conda create -n py3.8 python=3.8 
 
 # install bazel 
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=amd64 ; fi \
