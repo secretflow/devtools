@@ -39,7 +39,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CO
     && /root/miniconda3/bin/pip cache purge
 
 # Create python 3.8 env
-RUN conda create -n py3.8 python=3.8
+RUN /root/miniconda3/bin/conda create -n py3.8 python=3.8
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
