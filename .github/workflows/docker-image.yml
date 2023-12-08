@@ -12,14 +12,14 @@ jobs:
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
-    - name: Get all changed markdown files
+    - name: Get all changed dockerfiles
       id: changed-docker-files
       uses: tj-actions/changed-files@v40
       with:
         # Avoid using single or double quotes for multiline patterns
         files: |
            dockerfiles/*.DockerFile
-    - name: List all changed dockerfiles
+    - name: Publish docker images
       run: |
         for file in ${{ steps.changed-docker-files.outputs.all_changed_files }}; do
           echo "$file was changed"
