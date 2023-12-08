@@ -5,7 +5,7 @@ LABEL maintainer="secretflow-contact@service.alipay.com"
 ARG TARGETPLATFORM
 
 # change dash to bash as default shell
-RUN ln -sf /usr/bin/bash /bin/sh
+RUN chsh -s /bin/bash $(whoami)
 
 RUN apt update \
     && apt upgrade -y \
@@ -46,5 +46,3 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZE
 
 # run as root for now
 WORKDIR /home/admin/
-
-ENTRYPOINT [ "/bin/bash", "-lc" ]
