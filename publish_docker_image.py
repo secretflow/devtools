@@ -142,10 +142,10 @@ def main():
         _run_shell_command_with_live_output(
             ["docker", "tag", versioned_tag, latest_tag], "."
         )
-        # print(f"{COLOR_GREEN}[3/4] Push versioned tag to registry{COLOR_END}")
-        # _run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
-        # print(f"{COLOR_GREEN}[4/4] Push latest tag to registry{COLOR_END}")
-        # _run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
+        print(f"{COLOR_GREEN}[3/4] Push versioned tag to registry{COLOR_END}")
+        _run_shell_command_with_live_output(["docker", "push", versioned_tag], ".")
+        print(f"{COLOR_GREEN}[4/4] Push latest tag to registry{COLOR_END}")
+        _run_shell_command_with_live_output(["docker", "push", latest_tag], ".")
     
 
 
