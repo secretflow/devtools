@@ -4,9 +4,8 @@ RUN yum install -y centos-release-scl epel-release \
     && yum update -y \
     && yum clean all
 
-# install devtools and [enable it](https://access.redhat.com/solutions/527703)
 RUN yum install -y \
-    git vim-common wget unzip which java-11-openjdk-devel.x86_64 \
+    git vim-common wget unzip which java-11-openjdk-devel \
     libtool autoconf make ninja-build \
     && yum clean all
 
@@ -14,10 +13,14 @@ RUN yum install -y \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && bash Miniconda3-latest-Linux-x86_64.sh -b \
     && rm -f Miniconda3-latest-Linux-x86_64.sh \
-    && /root/miniconda3/bin/conda init bash
+    && /root/miniconda3/bin/conda init
+
+# Add conda to path
+ENV PATH="/root/miniconda3/bin:${PATH}"
 
 # Install lld
-RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 -y
+RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 -y \
+    && /root/miniconda3/bin/conda clean -afy
 
 # install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -25,10 +28,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 # install go
 ARG GO_VERSION=1.21.4
 ARG GO_SHA256SUM="73cac0215254d0c7d1241fa40837851f3b9a8a742d0b54714cbdfb3feaf8f0af"
-
-# install go
-RUN set -eux; \
-    url="https://golang.google.cn/dl/go${GO_VERSION}.linux-amd64.tar.gz"; \
+RUN url="https://golang.google.cn/dl/go${GO_VERSION}.linux-amd64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
     echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
     tar -C /usr/local -xzf go.tgz; \
@@ -41,9 +41,6 @@ ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-amd64 \
     && mv bazelisk-linux-amd64 /usr/bin/bazel \
     && chmod +x /usr/bin/bazel 
-
-# Add conda to path
-ENV PATH="/root/miniconda3/bin:${PATH}"
 
 # run as root for now
 WORKDIR /home/admin/
