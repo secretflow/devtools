@@ -46,3 +46,5 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZE
 
 # run as root for now
 WORKDIR /home/admin/
+
+ENTRYPOINT [ "/bin/bash", "--login", "c" ]
