@@ -17,7 +17,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
 
 # Install lld
 RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 -y \
-    conda clean -afy
+    /root/miniconda3/bin/conda clean -afy
 
 # install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
