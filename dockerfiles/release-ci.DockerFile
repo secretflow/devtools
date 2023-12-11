@@ -38,15 +38,9 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && rm -f Miniconda3-latest-Linux-x86_64.sh \
     && /root/miniconda3/bin/conda init bash
 
-COPY dockerfiles/build_llvm.sh /tmp/build_llvm.sh
-RUN wget --no-check-certificate https://github.com/llvm/llvm-project/releases/download/llvmorg-15.0.6/llvm-project-15.0.6.src.tar.xz \
-    && tar xf llvm-project-15.0.6.src.tar.xz \
-    && cd llvm-project-15.0.6.src/llvm \
-    && sh /tmp/build_llvm.sh \
-    && rm -rf /llvm-project-15.0.6.src \
-    && rm -f /llvm-project-15.0.6.src.tar.xz \
-    && rm -f /tmp/build_llvm.sh \
-    && ln -s /usr/local/bin/lld /opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin/ld.lld
+# Install lld
+RUN conda install -c conda-forge lld \
+    && ln -s /root/miniconda3/bin/ld.lld /opt/rh/devtoolset-${DEVTOOLSET_VERSION}/root/usr/bin/ld.lld
 
 # install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
