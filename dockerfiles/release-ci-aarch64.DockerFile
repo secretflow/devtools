@@ -1,3 +1,4 @@
+# Conda does not support CentOS 7 on Linux aarch64, so use CentOS 8
 FROM centos:centos8
 
 RUN cd /etc/yum.repos.d/ \

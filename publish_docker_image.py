@@ -38,6 +38,11 @@ def _check_is_multiarch_dockerfile(file):
         else:
             return False
 
+def _check_is_aarch64_dockerfile(file):
+    if 'aarch64' in file:
+        return True
+    return False
+
 
 COLOR_GREEN = "\033[92m"
 COLOR_END = "\033[0m"
@@ -72,9 +77,15 @@ def main():
 
     print(f"{COLOR_GREEN}Build docker image {name}{COLOR_END}")
 
-    if _check_is_multiarch_dockerfile(dockerfile):
+    is_multi_arch = _check_is_multiarch_dockerfile(dockerfile)
+    is_aarch64 = _check_is_aarch64_dockerfile(dockerfile)
+
+    if is_multi_arch or is_aarch64:
+        if is_multi_arch:
+            arch_str = "linux/amd64,linux/arm64"
+        elif is_aarch64:
+            arch_str = "linux/arm64"
         print(f"{COLOR_GREEN}Creating buildx")
-        is_multi_arch = True
         _run_shell_command_with_live_output(
             [
                 "docker",
@@ -83,7 +94,7 @@ def main():
                 "--name",
                 "sf-image-builder",
                 "--platform",
-                "linux/amd64,linux/arm64",
+                arch_str,
                 "--use",
             ],
             ".",
@@ -96,7 +107,7 @@ def main():
                 "buildx",
                 "build",
                 "--platform",
-                "linux/amd64,linux/arm64",
+                arch_str,
                 "--no-cache",
                 ".",
                 "-f",
@@ -114,7 +125,7 @@ def main():
                 "buildx",
                 "build",
                 "--platform",
-                "linux/amd64,linux/arm64",
+                arch_str,
                 ".",
                 "-f",
                 dockerfile,
