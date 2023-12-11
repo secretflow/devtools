@@ -1,4 +1,4 @@
-FROM centos:centos7
+FROM centos:centos7 
 
 RUN yum install -y centos-release-scl epel-release \
     && yum update -y \
