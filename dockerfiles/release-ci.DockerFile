@@ -16,10 +16,8 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh \
     && rm -f Miniconda3-latest-Linux-x86_64.sh \
     && /root/miniconda3/bin/conda init bash
 
-ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
-
 # Install lld
-RUN conda install -c conda-forge lld nasm gxx==11.4.0
+RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm gxx==11.4.0
 
 # install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
@@ -37,6 +35,7 @@ RUN set -eux; \
     rm go.tgz;
 
 ENV GOPATH="/usr/local"
+ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 
 # install bazel 
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-amd64 \
