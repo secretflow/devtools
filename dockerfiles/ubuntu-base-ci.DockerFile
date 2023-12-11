@@ -5,7 +5,7 @@ LABEL maintainer="secretflow-contact@service.alipay.com"
 ARG TARGETPLATFORM
 
 # change dash to bash as default shell
-RUN ln -sf /usr/bin/bash /bin/sh
+RUN ln -sf /bin/bash /bin/sh
 
 RUN apt update \
     && apt upgrade -y \
@@ -35,7 +35,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CO
     && rm -f Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh
 
 # Create python 3.8 env
-RUN /root/miniconda3/bin/conda init bash \
+RUN /root/miniconda3/bin/conda init \
     && /root/miniconda3/bin/conda create -n py3.8 python=3.8 
 
 # install bazel 
@@ -46,3 +46,5 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZE
 
 # run as root for now
 WORKDIR /home/admin/
+
+ENTRYPOINT [ "/bin/bash", "-lc" ]
