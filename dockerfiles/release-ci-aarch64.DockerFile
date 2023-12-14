@@ -24,7 +24,7 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.10.0-1-Linux-aa
 ENV PATH="/root/miniconda3/bin:${PATH}"
 
 # Install lld
-RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 -y \
+RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 clangxx -y \
     && /root/miniconda3/bin/conda clean -afy
 
 # install Rust
