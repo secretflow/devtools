@@ -15,17 +15,17 @@ RUN yum install -y \
     && yum clean all
 
 # install conda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.10.0-1-Linux-aarch64.sh \
-    && bash Miniconda3-py310_23.10.0-1-Linux-aarch64.sh -b \
-    && rm -f Miniconda3-py310_23.10.0-1-Linux-aarch64.sh \
-    && /root/miniconda3/bin/conda init
+RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" \
+    && bash Miniforge3-$(uname)-$(uname -m).sh -b \
+    && rm -f Miniforge3-$(uname)-$(uname -m).sh \
+    && /root/miniforge3/bin/conda init
 
 # Add conda to path
-ENV PATH="/root/miniconda3/bin:${PATH}"
+ENV PATH="/root/miniforge3/bin:${PATH}"
 
 # Install lld
-RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 clangxx -y \
-    && /root/miniconda3/bin/conda clean -afy
+RUN /root/miniforge3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 clangxx -y \
+    && /root/miniforge3/bin/conda clean -afy
 
 # install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
