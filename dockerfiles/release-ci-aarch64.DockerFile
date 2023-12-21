@@ -11,7 +11,7 @@ RUN cd /etc/yum.repos.d/ \
 
 RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel \
-    libtool autoconf make ninja-build \
+    libtool autoconf make ninja-build perl-IPC-Cmd \
     && yum clean all
 
 # install conda
