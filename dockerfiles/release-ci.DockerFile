@@ -20,8 +20,7 @@ ENV PATH="/root/miniconda3/bin:${PATH}"
 
 # Install lld
 RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 -y \
-    && /root/miniconda3/bin/conda clean -afy \
-    && ln -s /root/miniconda3/lib/libarchive.so.13 /root/miniconda3/lib/libarchive.so.19
+    && /root/miniconda3/bin/conda clean -afy
 
 # install Rust
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
