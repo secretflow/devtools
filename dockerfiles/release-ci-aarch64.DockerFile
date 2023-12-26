@@ -31,7 +31,7 @@ RUN /root/miniforge3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install go
-ARG GO_VERSION=1.21.4
+ARG GO_VERSION=1.21.5
 ARG GO_SHA256SUM=ce1983a7289856c3a918e1fd26d41e072cc39f928adfb11ba1896440849b95da
 RUN url="https://golang.google.cn/dl/go${GO_VERSION}.linux-arm64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
