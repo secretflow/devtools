@@ -32,7 +32,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install go
 ARG GO_VERSION=1.21.5
-ARG GO_SHA256SUM=ce1983a7289856c3a918e1fd26d41e072cc39f928adfb11ba1896440849b95da
+ARG GO_SHA256SUM=841cced7ecda9b2014f139f5bab5ae31785f35399f236b8b3e75dff2a2978d96
 RUN url="https://golang.google.cn/dl/go${GO_VERSION}.linux-arm64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
     echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
