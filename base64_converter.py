@@ -51,6 +51,8 @@ def main():
     else:
         content = args.str
 
+    print(f"Input {len(content)} bytes")
+
     if args.encode:
         result = base64.b64encode(content)
     else:
@@ -58,6 +60,7 @@ def main():
 
     with open(args.out_file, "wb+") as f:
         f.write(result)
+        print(f"Wrote {len(result)} bytes into {args.out_file}")
 
 
 if __name__ == "__main__":
