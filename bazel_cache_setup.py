@@ -49,13 +49,13 @@ def main():
 
     print(f"Input {len(content)} bytes")
 
-    if len(content) == 0:
-        print("empty input, done")
-
     if args.encode:
         result = base64.b64encode(content)
     else:
         result = base64.b64decode(content)
+
+    if len(result) == 0:
+        print("Empty file, skip")
 
     with open(args.out_file, "wb+") as f:
         f.write(result)
