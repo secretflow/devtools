@@ -21,15 +21,9 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--str",
-        type=str,
-        required=False
-    )
-
-    parser.add_argument(
         "--in_file",
         type=str,
-        required=False
+        required=True
     )
 
     parser.add_argument(
@@ -42,16 +36,21 @@ def main():
         "--encode",
         action='store_true'
     )
+    
+    parser.add_argument(
+        "--min_download",
+        action='store_true'
+    )
 
     args = parser.parse_args()
 
-    if args.in_file:
-        with open(args.in_file, 'rb') as f:
-            content = f.read()
-    else:
-        content = args.str
+    with open(args.in_file, 'rb') as f:
+        content = f.read()
 
     print(f"Input {len(content)} bytes")
+
+    if len(content) == 0:
+        print("empty input, done")
 
     if args.encode:
         result = base64.b64encode(content)
@@ -61,6 +60,13 @@ def main():
     with open(args.out_file, "wb+") as f:
         f.write(result)
         print(f"Wrote {len(result)} bytes into {args.out_file}")
+
+    with open('.bazelrc', 'a') as f:
+        f.write("build --remote_cache=https://storage.googleapis.com/secretflow\n")
+        f.write(f"build --google_credentials={args.out_file}\n")
+        if args.min_download:
+            f.write("build --remote_download_minimal\n")
+        print(".bazelrc updated")
 
 
 if __name__ == "__main__":
