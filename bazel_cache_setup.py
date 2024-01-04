@@ -56,6 +56,7 @@ def main():
 
     if len(result) == 0:
         print("Empty file, skip")
+        return
 
     with open(args.out_file, "wb+") as f:
         f.write(result)
