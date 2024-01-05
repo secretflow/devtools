@@ -42,6 +42,11 @@ def main():
         action='store_true'
     )
 
+    parser.add_argument(
+        "--toplevel_download",
+        action='store_true'
+    )
+
     args = parser.parse_args()
 
     with open(args.in_file, 'rb') as f:
@@ -67,6 +72,8 @@ def main():
         f.write(f"build --google_credentials={args.out_file}\n")
         if args.min_download:
             f.write("build --remote_download_minimal\n")
+        elif args.toplevel_download:
+            f.write("build --remote_download_toplevel\n")
         print(".bazelrc updated")
 
 
