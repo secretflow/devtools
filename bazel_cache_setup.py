@@ -63,7 +63,7 @@ def main():
         print(f"Wrote {len(result)} bytes into {args.out_file}")
 
     with open('.bazelrc', 'a') as f:
-        f.write("build --remote_cache_compression")
+        f.write("build --remote_cache_compression\n")
         f.write("build --remote_cache=https://storage.googleapis.com/secretflow\n")
         f.write(f"build --google_credentials={args.out_file}\n")
         if args.min_download:
