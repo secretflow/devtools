@@ -42,11 +42,6 @@ def main():
         action='store_true'
     )
 
-    parser.add_argument(
-        "--toplevel_download",
-        action='store_true'
-    )
-
     args = parser.parse_args()
 
     with open(args.in_file, 'rb') as f:
@@ -68,12 +63,11 @@ def main():
         print(f"Wrote {len(result)} bytes into {args.out_file}")
 
     with open('.bazelrc', 'a') as f:
+        f.write("build --remote_cache_compression")
         f.write("build --remote_cache=https://storage.googleapis.com/secretflow\n")
         f.write(f"build --google_credentials={args.out_file}\n")
         if args.min_download:
             f.write("build --remote_download_minimal\n")
-        elif args.toplevel_download:
-            f.write("build --remote_download_toplevel\n")
         print(".bazelrc updated")
 
 
