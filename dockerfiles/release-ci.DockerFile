@@ -45,4 +45,4 @@ RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazeli
 # run as root for now
 WORKDIR /home/admin/
 
-ENTRYPOINT [ "/bin/bash", "-l" ]
+ENTRYPOINT [ "/bin/bash", "-lc" ]
