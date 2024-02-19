@@ -21,3 +21,9 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; \
 
 ENV GOPATH="/usr/local"
 ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
+
+RUN apt update \
+    && apt upgrade -y \
+    && apt install -y protobuf-compiler \
+    && apt clean
+
