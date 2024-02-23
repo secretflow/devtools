@@ -32,9 +32,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/amd64" ] ; then apt install -y nasm ; fi
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CONDA_ARCH=x86_64 ; fi \
     && wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh \
     && bash Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh -b \
-    && rm -f Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh \
-    && /root/miniconda3/bin/conda init \
-    && /root/miniconda3/bin/conda create -n py3.10 python=3.10
+    && rm -f Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
