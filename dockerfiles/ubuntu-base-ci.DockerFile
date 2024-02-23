@@ -33,8 +33,7 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CO
     && wget https://repo.anaconda.com/miniconda/Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh \
     && bash Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh -b \
     && rm -f Miniconda3-py310_23.10.0-1-Linux-$CONDA_ARCH.sh \
-    && /root/miniconda3/bin/conda init \
-    && /root/miniconda3/bin/conda create -n py3.10 python=3.10
+    && /root/miniconda3/bin/conda init
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}" 
