@@ -1,3 +1,5 @@
+FROM apache/skywalking-eyes:0.5.0 as skywalking-eyes
+
 FROM ubuntu:jammy
 
 LABEL maintainer="secretflow-contact@service.alipay.com"
@@ -43,6 +45,9 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZE
     && wget https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-$BAZEL_ARCH \
     && mv bazelisk-linux-$BAZEL_ARCH /usr/bin/bazel \
     && chmod +x /usr/bin/bazel 
+
+# install skywalking-eyes
+COPY --from=skywalking-eyes /bin/license-eye /bin/
 
 # run as root for now
 WORKDIR /home/admin/
