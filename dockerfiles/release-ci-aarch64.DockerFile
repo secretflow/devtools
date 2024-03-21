@@ -31,8 +31,8 @@ RUN /root/miniforge3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install go
-ARG GO_VERSION=1.21.5
-ARG GO_SHA256SUM=841cced7ecda9b2014f139f5bab5ae31785f35399f236b8b3e75dff2a2978d96
+ARG GO_VERSION=1.22.1
+ARG GO_SHA256SUM=e56685a245b6a0c592fc4a55f0b7803af5b3f827aaa29feab1f40e491acf35b8
 RUN url="https://golang.google.cn/dl/go${GO_VERSION}.linux-arm64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
     echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
