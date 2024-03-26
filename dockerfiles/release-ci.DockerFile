@@ -13,8 +13,9 @@ RUN yum install -y \
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.1.2-0-Linux-x86_64.sh \
     && bash Miniconda3-py310_24.1.2-0-Linux-x86_64.sh -b \
     && rm -f Miniconda3-py310_24.1.2-0-Linux-x86_64.sh \
-    && /root/miniconda3/bin/conda init \
-    && conda config --remove channels defaults \
+    && /root/miniconda3/bin/conda init
+
+RUN conda config --remove channels defaults \
     && conda config --add channels conda-forge \
     && conda update --all --solver classic
 
