@@ -11,7 +11,7 @@ RUN apt update \
     && apt upgrade -y \
     && apt install -y gcc-11 g++-11 libasan6 \
     git wget curl unzip autoconf make lld-15 \
-    cmake ninja-build nasm vim-common libgl1 libglib2.0-0 \
+    cmake ninja-build vim-common libgl1 libglib2.0-0 \
     && apt clean \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100 \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
