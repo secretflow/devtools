@@ -6,12 +6,12 @@ RUN cd /etc/yum.repos.d/ \
     && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* \
     && yum update -y \
     && yum install -y dnf-plugins-core \
-    && yum config-manager --set-enabled powertools patch \
+    && yum config-manager --set-enabled powertools \
     && yum clean all
 
 RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel \
-    libtool autoconf make ninja-build perl-IPC-Cmd \
+    libtool autoconf make ninja-build perl-IPC-Cmd patch \
     && yum clean all
 
 # install conda
