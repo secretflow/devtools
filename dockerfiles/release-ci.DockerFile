@@ -5,14 +5,14 @@ RUN yum install -y centos-release-scl epel-release \
     && yum clean all
 
 RUN yum install -y \
-    git vim-common wget unzip which java-11-openjdk-devel \
-    libtool autoconf make ninja-build perl-IPC-Cmd patch \
+    git vim-common wget unzip which java-11-openjdk-devel patch \
+    libtool autoconf make ninja-build perl-IPC-Cmd \
     && yum clean all
 
 # install conda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.1.2-0-Linux-x86_64.sh \
-    && bash Miniconda3-py310_24.1.2-0-Linux-x86_64.sh -b \
-    && rm -f Miniconda3-py310_24.1.2-0-Linux-x86_64.sh \
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.4.0-0-Linux-x86_64.sh --output-document=Miniconda.sh \
+    && bash Miniconda.sh -b \
+    && rm -f Miniconda.sh \
     && /root/miniconda3/bin/conda init \
     && /root/miniconda3/bin/conda config --remove channels defaults \
     && /root/miniconda3/bin/conda config --add channels conda-forge \
