@@ -15,7 +15,7 @@ ARG GO_VERSION=1.19.7
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y git wget unzip gcc make \
+    && apt-get install -y git wget unzip gcc make curl \
     && apt-get clean
 
 # install go
