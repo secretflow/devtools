@@ -29,8 +29,8 @@ RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install go
-ARG GO_VERSION=1.22.1
-ARG GO_SHA256SUM="aab8e15785c997ae20f9c88422ee35d962c4562212bb0f879d052a35c8307c7f"
+ARG GO_VERSION=1.22.4
+ARG GO_SHA256SUM="ba79d4526102575196273416239cca418a651e049c2b099f3159db85e7bade7d"
 RUN url="https://golang.google.cn/dl/go${GO_VERSION}.linux-amd64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
     echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
