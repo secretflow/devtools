@@ -14,7 +14,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_TOKEN }}
     - name: Get all changed dockerfiles
       id: changed-docker-files
-      uses: tj-actions/changed-files@v40
+      uses: tj-actions/changed-files@v44
       with:
         # Avoid using single or double quotes for multiline patterns
         files: |
