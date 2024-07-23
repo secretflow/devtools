@@ -1,7 +1,11 @@
-FROM centos:centos7 
+FROM centos:centos8
 
-RUN yum install -y centos-release-scl epel-release \
+RUN cd /etc/yum.repos.d/ \
+    && sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-* \
+    && sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-* \
     && yum update -y \
+    && yum install -y dnf-plugins-core \
+    && yum config-manager --set-enabled powertools \
     && yum clean all
 
 RUN yum install -y \
