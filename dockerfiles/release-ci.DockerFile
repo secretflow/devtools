@@ -19,10 +19,10 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.1.2-0-Linux-x86
     && /root/miniconda3/bin/conda config --add channels conda-forge \
     && /root/miniconda3/bin/conda update --all --solver classic
 
-RUN /root/miniconda3/bin/conda install --solver=classic conda-forge::conda-libmamba-solver conda-forge::libmamba conda-forge::libmambapy conda-forge::libarchive -y
-
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
+
+RUN /root/miniconda3/bin/conda install --solver=classic conda-forge::conda-libmamba-solver conda-forge::libmamba conda-forge::libmambapy conda-forge::libarchive -y
 
 # Install lld
 RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 -y \
