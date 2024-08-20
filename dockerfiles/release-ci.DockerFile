@@ -15,7 +15,11 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.1.2-0-Linux-x86
     && bash Miniconda.sh -b \
     && rm -f Miniconda.sh \
     && /root/miniconda3/bin/conda init \
-    && /root/miniconda3/bin/conda install --solver=classic conda-forge::conda-libmamba-solver conda-forge::libmamba conda-forge::libmambapy conda-forge::libarchive -y
+    && /root/miniconda3/bin/conda config --remove channels defaults \
+    && /root/miniconda3/bin/conda config --add channels conda-forge \
+    && /root/miniconda3/bin/conda update --all --solver classic
+
+RUN /root/miniconda3/bin/conda install --solver=classic conda-forge::conda-libmamba-solver conda-forge::libmamba conda-forge::libmambapy conda-forge::libarchive -y
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
