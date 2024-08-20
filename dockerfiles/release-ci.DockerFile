@@ -7,7 +7,7 @@ RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo \
 
 RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel patch \
-    libtool autoconf make ninja-build perl-IPC-Cmd \
+    libtool autoconf make ninja-build perl-IPC-Cmd ca-certificates \
     && yum clean all
 
 # install conda
