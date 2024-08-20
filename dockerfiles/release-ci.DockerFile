@@ -5,10 +5,6 @@ RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo \
     && sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo \
     && sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
 
-RUN yum install -y centos-release-scl epel-release \
-    && yum update -y \
-    && yum clean all
-
 RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel patch \
     libtool autoconf make ninja-build perl-IPC-Cmd \
