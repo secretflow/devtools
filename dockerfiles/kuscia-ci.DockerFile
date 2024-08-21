@@ -11,7 +11,7 @@ RUN ln -sf /usr/bin/bash /bin/sh
 
 ARG TARGETPLATFORM
 ARG TARGETARCH
-ARG GO_VERSION=1.19.7
+ARG GO_VERSION=1.22.5
 
 RUN apt-get update \
     && apt-get upgrade -y \
@@ -22,9 +22,9 @@ RUN apt-get update \
 RUN set -eux; \
     if [ "$TARGETPLATFORM" = "linux/arm64" ] ; \
     then \
-        GO_SHA256SUM=071ea7bf386fdd08df524859b878d99fc359e491e7ad65c1c1cc55b67972c882 ; \
+        GO_SHA256SUM=8d21325bfcf431be3660527c1a39d3d9ad71535fabdf5041c826e44e31642b5a; \
     else \
-        GO_SHA256SUM=7a75720c9b066ae1750f6bcc7052aba70fa3813f4223199ee2a2315fd3eb533d ; \
+        GO_SHA256SUM=904b924d435eaea086515bc63235b192ea441bd8c9b198c507e85009e6e4c7f0; \
     fi \
     && url="https://golang.google.cn/dl/go${GO_VERSION}.linux-${TARGETARCH}.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
