@@ -7,17 +7,14 @@ RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo \
 
 RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel patch \
-    libtool autoconf make ninja-build perl-IPC-Cmd ca-certificates \
+    libtool autoconf make ninja-build perl-IPC-Cmd ca-certificates libarchive \
     && yum clean all
 
 # install conda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.1.2-0-Linux-x86_64.sh --output-document=Miniconda.sh \
     && bash Miniconda.sh -b \
     && rm -f Miniconda.sh \
-    && /root/miniconda3/bin/conda init \
-    && /root/miniconda3/bin/conda config --remove channels defaults \
-    && /root/miniconda3/bin/conda config --add channels conda-forge \
-    && /root/miniconda3/bin/conda update --all --solver classic
+    && /root/miniconda3/bin/conda init
 
 RUN /root/miniconda3/bin/conda install mamba -c conda-forge --force-reinstall -y
 
