@@ -49,15 +49,16 @@ refresh_compile_commands(
 
 """
 
-def _run_shell_command_with_live_output(cmd, cwd, check=True):
+def _run_shell_command_with_live_output(cmd, cwd, shell=True):
     print(cmd)
-    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cwd)
+    p = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cwd, shell=shell
+    )
     for line in p.stdout:
         print(line.decode("utf-8").rstrip())
     p.wait()
     status = p.poll()
-    if check:
-        assert status == 0
+    assert status == 0
 
 def _rm(path: str):
     p = pathlib.Path(path)
