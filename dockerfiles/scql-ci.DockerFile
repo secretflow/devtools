@@ -2,16 +2,16 @@ FROM secretflow/ubuntu-base-ci:latest
 
 ARG TARGETPLATFORM
 
-ARG GO_VERSION=1.22.4
+ARG GO_VERSION=1.23.1
 
 # install go
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; \
     then \
         GO_ARCH=arm64 && \
-        GO_SHA256SUM=a8e177c354d2e4a1b61020aca3562e27ea3e8f8247eca3170e3fa1e0c2f9e771 ; \
+        GO_SHA256SUM=faec7f7f8ae53fda0f3d408f52182d942cc89ef5b7d3d9f23ff117437d4b2d2f ; \
     else \
         GO_ARCH=amd64 && \
-        GO_SHA256SUM=ba79d4526102575196273416239cca418a651e049c2b099f3159db85e7bade7d ; \
+        GO_SHA256SUM=49bbb517cfa9eee677e1e7897f7cf9cfdbcf49e05f61984a2789136de359f9bd ; \
     fi \
     && url="https://golang.google.cn/dl/go${GO_VERSION}.linux-${GO_ARCH}.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
@@ -26,4 +26,3 @@ RUN apt update \
     && apt upgrade -y \
     && apt install -y protobuf-compiler \
     && apt clean
-
