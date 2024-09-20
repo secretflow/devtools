@@ -31,8 +31,8 @@ RUN /root/miniforge3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # install go
-ARG GO_VERSION=1.22.4
-ARG GO_SHA256SUM=a8e177c354d2e4a1b61020aca3562e27ea3e8f8247eca3170e3fa1e0c2f9e771
+ARG GO_VERSION=1.23.1
+ARG GO_SHA256SUM=faec7f7f8ae53fda0f3d408f52182d942cc89ef5b7d3d9f23ff117437d4b2d2f
 RUN url="https://golang.google.cn/dl/go${GO_VERSION}.linux-arm64.tar.gz"; \
     wget --no-check-certificate -O go.tgz "$url"; \
     echo "${GO_SHA256SUM} *go.tgz" | sha256sum -c -; \
@@ -42,10 +42,10 @@ RUN url="https://golang.google.cn/dl/go${GO_VERSION}.linux-arm64.tar.gz"; \
 ENV GOPATH="/usr/local"
 ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 
-# install bazel 
+# install bazel
 RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-arm64 \
     && mv bazelisk-linux-arm64 /usr/bin/bazel \
-    && chmod +x /usr/bin/bazel 
+    && chmod +x /usr/bin/bazel
 
 # run as root for now
 WORKDIR /home/admin/
