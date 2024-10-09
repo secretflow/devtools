@@ -13,7 +13,7 @@ RUN yum install -y \
     && yum clean all
 
 # install conda
-RUN wget https://repo.anaconda.com/miniconda/Miniconda3-py310_24.1.2-0-Linux-x86_64.sh --output-document=Miniconda.sh \
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda3/Miniconda.sh \
     && bash Miniconda.sh -b \
     && rm -f Miniconda.sh \
     && /root/miniconda3/bin/conda init
