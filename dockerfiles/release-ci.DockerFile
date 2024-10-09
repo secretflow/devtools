@@ -9,7 +9,7 @@ RUN yum install -y epel-release
 
 RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel patch \
-    libtool autoconf make ninja-build perl-IPC-Cmd ca-certificates libarchive \
+    libtool autoconf make ninja-build ca-certificates libarchive \
     && yum clean all
 
 # install conda
@@ -24,7 +24,7 @@ RUN /root/miniconda3/bin/conda install mamba -c conda-forge --force-reinstall -y
 ENV PATH="/root/miniconda3/bin:${PATH}"
 
 # Install lld
-RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 -y \
+RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 perl -y \
     && /root/miniconda3/bin/conda clean -afy
 
 # install Rust
