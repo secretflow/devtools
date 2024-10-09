@@ -24,7 +24,7 @@ RUN /root/miniconda3/bin/conda install mamba -c conda-forge --force-reinstall -y
 ENV PATH="/root/miniconda3/bin:${PATH}"
 
 # Install lld
-RUN /root/miniconda3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 perl -y \
+RUN /root/miniconda3/bin/conda install -c conda-forge perl lld nasm cmake gxx==11.4.0 -y \
     && /root/miniconda3/bin/conda clean -afy
 
 # install Rust
