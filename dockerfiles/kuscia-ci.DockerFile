@@ -13,10 +13,10 @@ ARG TARGETPLATFORM
 ARG TARGETARCH
 ARG GO_VERSION=1.22.5
 
-RUN apt-get update \
-    && apt-get upgrade -y \
-    && apt-get install -y git wget unzip gcc make curl \
-    && apt-get clean
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y git wget unzip gcc make curl shellcheck python3 python3-pip nodejs npm && \
+    apt-get clean
 
 # install go
 RUN set -eux; \
@@ -38,7 +38,16 @@ ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1 && \
     go install github.com/t-yuki/gocover-cobertura@latest && \
     go install github.com/jstemmer/go-junit-report/v2@latest && \
-    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1 && \
+    go install github.com/elastic/crd-ref-docs@v0.1.0
+
+RUN pip3 install --upgrade pip==22.0.4 && \
+    pip3 install yamllint==1.35.1 && \
+    pip3 install sphinx==6.2.1 && \
+    pip3 install codespell==2.3.0
+
+RUN npm --registry https://registry.npmmirror.com install -g markdownlint-cli && \
+    npm --registry https://registry.npmmirror.com install -g linkinator@6.1.2
 
 # run as root for now
 WORKDIR /home/admin/
