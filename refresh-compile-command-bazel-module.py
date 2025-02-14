@@ -18,7 +18,7 @@ import os
 import pathlib
 import shutil
 import argparse
-from utils import run_shell_command_with_live_output
+import subprocess
 
 
 module_file_content = """
@@ -48,6 +48,16 @@ refresh_compile_commands(
 
 """
 
+def _run_shell_command_with_live_output(cmd, cwd, shell=True):
+    print(cmd)
+    p = subprocess.Popen(
+        cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, cwd=cwd, shell=shell
+    )
+    for line in p.stdout:
+        print(line.decode("utf-8").rstrip())
+    p.wait()
+    status = p.poll()
+    assert status == 0
 
 def _rm(path: str):
     p = pathlib.Path(path)
@@ -138,6 +148,6 @@ if __name__ == "__main__":
             bf.write(content)
 
         # Run
-        run_shell_command_with_live_output(
+        _run_shell_command_with_live_output(
             'bazel run -s :refresh_compile_commands', cwd=os.getcwd(), shell=True
         )
