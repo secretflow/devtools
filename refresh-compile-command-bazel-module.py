@@ -48,6 +48,7 @@ refresh_compile_commands(
 
 """
 
+
 def _run_shell_command_with_live_output(cmd, cwd, shell=True):
     print(cmd)
     p = subprocess.Popen(
@@ -58,6 +59,7 @@ def _run_shell_command_with_live_output(cmd, cwd, shell=True):
     p.wait()
     status = p.poll()
     assert status == 0
+
 
 def _rm(path: str):
     p = pathlib.Path(path)
@@ -79,12 +81,12 @@ def _restore_file(path: str):
 
 class BzlModule(object):
     def __init__(self):
-        self.module_file = 'MODULE.bazel'
+        self.module_file = "MODULE.bazel"
 
-        if os.path.isfile('BUILD.bazel'):
-            self.build_file = 'BUILD.bazel'
+        if os.path.isfile("BUILD.bazel"):
+            self.build_file = "BUILD.bazel"
         else:
-            self.build_file = 'BUILD'
+            self.build_file = "BUILD"
 
         self.has_build = os.path.exists(self.build_file)
 
@@ -93,7 +95,7 @@ class BzlModule(object):
             _backup_file(self.build_file)
         else:
             # Create empty file
-            with open(self.build_file, 'w') as fp:
+            with open(self.build_file, "w") as fp:
                 pass
 
         _backup_file(self.module_file)
@@ -132,7 +134,7 @@ if __name__ == "__main__":
         targets = args.targets
         t_str = ""
         if targets:
-            for t in targets.split(','):
+            for t in targets.split(","):
                 t_str += f'       "{t}": "",\n'
 
         if t_str:
@@ -149,5 +151,5 @@ if __name__ == "__main__":
 
         # Run
         _run_shell_command_with_live_output(
-            'bazel run -s :refresh_compile_commands', cwd=os.getcwd(), shell=True
+            "bazelisk run -s :refresh_compile_commands", cwd=os.getcwd(), shell=True
         )
