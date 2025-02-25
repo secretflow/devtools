@@ -1,6 +1,7 @@
 FROM secretflow/ubuntu-base-ci:latest
 
 ARG TARGETPLATFORM
+
 ARG GO_VERSION=1.24.0
 
 # install go
