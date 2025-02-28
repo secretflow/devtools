@@ -16,7 +16,7 @@ RUN apt update \
     && apt clean \
     && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-11 100 \
     && update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 100 \
-    && update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-15 100 
+    && update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-15 100
 
 # clang is required on arm64 platform
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then apt install -y clang-15 \
@@ -37,13 +37,14 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CO
     && /root/miniconda3/bin/conda init
 
 # Add conda to path
-ENV PATH="/root/miniconda3/bin:${PATH}" 
+ENV PATH="/root/miniconda3/bin:${PATH}"
 
-# install bazel 
+# install bazel
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=amd64 ; fi \
-    && wget https://github.com/bazelbuild/bazelisk/releases/download/v1.20.0/bazelisk-linux-$BAZEL_ARCH \
-    && mv bazelisk-linux-$BAZEL_ARCH /usr/bin/bazel \
-    && chmod +x /usr/bin/bazel 
+    && wget https://github.com/bazelbuild/bazelisk/releases/download/v1.25.0/bazelisk-linux-$BAZEL_ARCH \
+    && mv bazelisk-linux-$BAZEL_ARCH /usr/bin/bazelisk \
+    && chmod +x /usr/bin/bazelisk \
+    && ln -s /usr/bin/bazelisk /usr/bin/bazel
 
 # run as root for now
 WORKDIR /home/admin/
