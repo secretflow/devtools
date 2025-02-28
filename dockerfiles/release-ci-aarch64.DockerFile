@@ -43,9 +43,10 @@ ENV GOPATH="/usr/local"
 ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 
 # install bazel
-RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.19.0/bazelisk-linux-arm64 \
-    && mv bazelisk-linux-arm64 /usr/bin/bazel \
-    && chmod +x /usr/bin/bazel
+RUN wget https://github.com/bazelbuild/bazelisk/releases/download/v1.25.0/bazelisk-linux-arm64 \
+    && mv bazelisk-linux-arm64 /usr/bin/bazelisk \
+    && chmod +x /usr/bin/bazelisk \
+    && ln -s /usr/bin/bazelisk /usr/bin/bazel
 
 # run as root for now
 WORKDIR /home/admin/
