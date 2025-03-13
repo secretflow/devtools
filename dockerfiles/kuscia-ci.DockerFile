@@ -47,10 +47,10 @@ RUN wget https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellc
     tar xf shellcheck-v0.10.0.linux.aarch64.tar.xz -C /opt && \
     cp /opt/shellcheck-v0.10.0/shellcheck /usr/local/bin
 
-RUN wget https://nodejs.org/dist/v22.12.0/node-v22.12.0-linux-arm64.tar.xz && \
-    tar xf node-v22.12.0-linux-arm64.tar.xz -C /opt && \
-    ln -s /opt/node-v22.12.0-linux-arm64/bin/node /usr/local/bin/node && \
-    ln -s /opt/node-v22.12.0-linux-arm64/bin/npm /usr/local/bin/npm && \
+RUN curl -sL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh && \
+    sh nodesource_setup.sh && \
+    rm -f nodesource_setup.sh && \
+    apt-get install -y nodejs && \
     npm config set registry https://registry.npmmirror.com && \
     npm install -g markdownlint-cli && \
     npm install -g linkinator@6.1.2 && \
