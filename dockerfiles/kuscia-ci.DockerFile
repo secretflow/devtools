@@ -15,7 +15,7 @@ ARG GO_VERSION=1.22.5
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y git wget unzip gcc make curl xz-utils python3.11 \
+    && apt-get install -y git wget unzip gcc make curl xz-utils python3.11 shellcheck \
     && apt-get clean
 
 # install go
@@ -43,19 +43,13 @@ RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1 && \
 # Fixed: go: all arguments must refer to packages in the same module at the same version (@v1.50.1)
 RUN go install github.com/apache/skywalking-eyes/cmd/license-eye@v0.6.1-0.20250110091440-69f34abb75ec
 
-RUN wget https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.aarch64.tar.xz && \
-    tar xf shellcheck-v0.10.0.linux.aarch64.tar.xz -C /opt && \
-    cp /opt/shellcheck-v0.10.0/shellcheck /usr/local/bin
-
 RUN curl -sL https://deb.nodesource.com/setup_22.x -o nodesource_setup.sh && \
     sh nodesource_setup.sh && \
     rm -f nodesource_setup.sh && \
     apt-get install -y nodejs && \
     npm config set registry https://registry.npmmirror.com && \
-    npm install -g markdownlint-cli && \
-    npm install -g linkinator@6.1.2 && \
-    ln -sf /opt/node-v22.12.0-linux-arm64/lib/node_modules/linkinator/build/src/cli.js /usr/local/bin/linkinator && \
-    ln -sf /opt/node-v22.12.0-linux-arm64/lib/node_modules/markdownlint-cli/markdownlint.js /usr/local/bin/markdownlint
+    npm install -g markdownlint-cli --global && \
+    npm install -g linkinator@6.1.2 --global
 
 RUN ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
     curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
