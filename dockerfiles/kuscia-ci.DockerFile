@@ -15,7 +15,7 @@ ARG GO_VERSION=1.22.5
 
 RUN apt-get update \
     && apt-get upgrade -y \
-    && apt-get install -y git wget unzip gcc make curl \
+    && apt-get install -y git wget unzip gcc make curl xz-utils python3.11 \
     && apt-get clean
 
 # install go
@@ -38,15 +38,10 @@ ENV PATH="/usr/local/go/bin:${GOPATH}/bin:${PATH}"
 RUN go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28.1 && \
     go install github.com/t-yuki/gocover-cobertura@latest && \
     go install github.com/jstemmer/go-junit-report/v2@latest && \
-    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1 \
-    go install github.com/apache/skywalking-eyes/cmd/license-eye@v0.6.1-0.20250110091440-69f34abb75ec
+    go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.50.1
 
-RUN ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
-    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
-    sudo python3 get-pip.py && \
-    pip install yamllint==1.35.1 && \
-    pip install sphinx==6.2.1 && \
-    pip install codespell==2.3.0
+# Fixed: go: all arguments must refer to packages in the same module at the same version (@v1.50.1)
+RUN go install github.com/apache/skywalking-eyes/cmd/license-eye@v0.6.1-0.20250110091440-69f34abb75ec
 
 RUN wget https://github.com/koalaman/shellcheck/releases/download/v0.10.0/shellcheck-v0.10.0.linux.aarch64.tar.xz && \
     tar xf shellcheck-v0.10.0.linux.aarch64.tar.xz -C /opt && \
@@ -61,7 +56,13 @@ RUN wget https://nodejs.org/dist/v22.12.0/node-v22.12.0-linux-arm64.tar.xz && \
     npm install -g linkinator@6.1.2 && \
     ln -sf /opt/node-v22.12.0-linux-arm64/lib/node_modules/linkinator/build/src/cli.js /usr/local/bin/linkinator && \
     ln -sf /opt/node-v22.12.0-linux-arm64/lib/node_modules/markdownlint-cli/markdownlint.js /usr/local/bin/markdownlint
-    
+
+RUN ln -sf /usr/bin/python3.11 /usr/bin/python3 && \
+    curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py && \
+    python3 get-pip.py && \
+    pip install yamllint==1.35.1 && \
+    pip install sphinx==6.2.1 && \
+    pip install codespell==2.3.0
 
 # run as root for now
 WORKDIR /home/admin/
