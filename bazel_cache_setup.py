@@ -15,61 +15,45 @@
 # limitations under the License.
 
 import argparse
-import base64
+import os
+
 
 def main():
-    parser = argparse.ArgumentParser()
-
-    parser.add_argument(
-        "--in_file",
-        type=str,
-        required=True
+    """
+    Configures the .bazelrc file for BuildBuddy remote caching by reading
+    an API key from the BUILDBUDDY_API_KEY environment variable.
+    """
+    parser = argparse.ArgumentParser(
+        description="Setup BuildBuddy remote cache for Bazel."
     )
 
-    parser.add_argument(
-        "--out_file",
-        type=str,
-        required=True
-    )
+    parser.parse_args()
 
-    parser.add_argument(
-        "--encode",
-        action='store_true'
-    )
-    
-    parser.add_argument(
-        "--min_download",
-        action='store_true'
-    )
+    # --- BuildBuddy Configuration ---
 
-    args = parser.parse_args()
+    # 1. Get the API key from the CircleCI environment variable.
+    api_key = os.getenv("BUILDBUDDY_API_KEY")
 
-    with open(args.in_file, 'rb') as f:
-        content = f.read()
-
-    print(f"Input {len(content)} bytes")
-
-    if args.encode:
-        result = base64.b64encode(content)
-    else:
-        result = base64.b64decode(content)
-
-    if len(result) == 0:
-        print("Empty file, skip")
+    if not api_key:
+        print("Warning: BUILDBUDDY_API_KEY environment variable not found.")
+        print("Proceeding with the build without remote caching.")
         return
 
-    with open(args.out_file, "wb+") as f:
-        f.write(result)
-        print(f"Wrote {len(result)} bytes into {args.out_file}")
+    print("Found BUILDBUDDY_API_KEY. Configuring .bazelrc for BuildBuddy...")
 
-    with open('.bazelrc', 'a') as f:
-        f.write("build --experimental_remote_cache_compression\n")
-        f.write("build --remote_cache=https://storage.googleapis.com/secretflow\n")
-        f.write(f"build --google_credentials={args.out_file}\n")
-        if args.min_download:
-            f.write("build --remote_download_minimal\n")
-        print(".bazelrc updated")
+    # 2. Append the required BuildBuddy flags to the .bazelrc file.
+    with open(".bazelrc", "a") as f:
+        f.write(
+            "build --bes_results_url=https://secretflow.buildbuddy.io/invocation/\n"
+        )
+        f.write("build --bes_backend=grpcs://secretflow.buildbuddy.io\n")
+        f.write("build --remote_cache=grpcs://secretflow.buildbuddy.io\n")
+        f.write("build --remote_timeout=10m\n")
+        f.write(f"build --remote_header=x-buildbuddy-api-key={api_key}\n")
+
+    print(".bazelrc has been successfully updated for BuildBuddy.")
 
 
 if __name__ == "__main__":
     main()
+
