@@ -27,7 +27,13 @@ def main():
         description="Setup BuildBuddy remote cache for Bazel."
     )
 
-    parser.parse_args()
+    parser.add_argument(
+        "--min_download",
+        action="store_true",
+        help="Use --remote_download_minimal for faster remote actions."
+    )
+
+    args = parser.parse_args()
 
     # --- BuildBuddy Configuration ---
 
@@ -50,6 +56,8 @@ def main():
         f.write("build --remote_cache=grpcs://secretflow.buildbuddy.io\n")
         f.write("build --remote_timeout=10m\n")
         f.write(f"build --remote_header=x-buildbuddy-api-key={api_key}\n")
+        if args.min_download:
+            f.write("build --remote_download_minimal\n")
 
     print(".bazelrc has been successfully updated for BuildBuddy.")
 
