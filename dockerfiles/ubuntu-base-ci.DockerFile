@@ -39,6 +39,11 @@ RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then CONDA_ARCH=aarch64 ; else CO
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
 
+# install uv
+RUN curl -sL https://astral.sh/uv/install.sh -o uv_install.sh \
+    && sh uv_install.sh \
+    && rm -f uv_install.sh
+
 # install bazel
 RUN if [ "$TARGETPLATFORM" = "linux/arm64" ] ; then BAZEL_ARCH=arm64 ; else BAZEL_ARCH=amd64 ; fi \
     && wget https://github.com/bazelbuild/bazelisk/releases/download/v1.25.0/bazelisk-linux-$BAZEL_ARCH \

@@ -20,6 +20,11 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x -o nodesource_setup.sh \
     && apt-get install -y nodejs \
     && apt-get clean
 
+# install uv
+RUN curl -sL https://astral.sh/uv/install.sh -o uv_install.sh \
+    && sh uv_install.sh \
+    && rm -f uv_install.sh
+
 RUN npm install markdownlint-cli2 --global \
     && rm -rf node_modules
 
