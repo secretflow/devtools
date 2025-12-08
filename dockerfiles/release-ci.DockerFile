@@ -13,8 +13,7 @@ RUN yum install -y \
     && yum clean all
 
 # install conda
-ARG CONDA_VERSION="25.1.1-2"
-RUN wget "https://github.com/conda-forge/miniforge/releases/download/${CONDA_VERSION}/Miniforge3-Linux-x86_64.sh" -O Miniconda.sh \
+RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py311_25.1.1-2-Linux-x86_64.sh" -O Miniconda.sh \
     && bash Miniconda.sh -b \
     && rm -f Miniconda.sh \
     && /root/miniconda3/bin/conda init
