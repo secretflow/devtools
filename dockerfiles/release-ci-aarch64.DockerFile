@@ -23,6 +23,11 @@ RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/downloa
 # Add conda to path
 ENV PATH="/root/miniforge3/bin:${PATH}"
 
+# install uv
+RUN curl -sL https://astral.sh/uv/install.sh -o uv_install.sh \
+    && sh uv_install.sh \
+    && rm -f uv_install.sh
+
 # Install lld
 RUN /root/miniforge3/bin/conda install -c conda-forge lld nasm cmake gxx==11.4.0 clangxx -y \
     && /root/miniforge3/bin/conda clean -afy

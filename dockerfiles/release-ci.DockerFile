@@ -23,6 +23,11 @@ RUN /root/miniconda3/bin/conda install mamba -c conda-forge --force-reinstall -y
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
 
+# install uv
+RUN curl -sL https://astral.sh/uv/install.sh -o uv_install.sh \
+    && sh uv_install.sh \
+    && rm -f uv_install.sh
+
 # Install lld
 RUN /root/miniconda3/bin/conda install -c conda-forge perl lld nasm cmake gxx==11.4.0 -y \
     && /root/miniconda3/bin/conda clean -afy
