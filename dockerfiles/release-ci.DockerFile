@@ -1,11 +1,4 @@
-FROM centos:centos7
-
-# CentOS 7 EOL workaround
-RUN sed -i s/mirror.centos.org/vault.centos.org/g /etc/yum.repos.d/*.repo \
-    && sed -i s/^#.*baseurl=http/baseurl=http/g /etc/yum.repos.d/*.repo \
-    && sed -i s/^mirrorlist=http/#mirrorlist=http/g /etc/yum.repos.d/*.repo
-
-RUN yum install -y epel-release
+FROM quay.io/pypa/manylinux_2_28_x86_64:latest
 
 RUN yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel patch \
@@ -13,12 +6,13 @@ RUN yum install -y \
     && yum clean all
 
 # install conda
-RUN wget "https://repo.anaconda.com/miniconda/Miniconda3-py311_25.1.1-2-Linux-x86_64.sh" -O Miniconda.sh \
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O Miniconda.sh \
     && bash Miniconda.sh -b \
     && rm -f Miniconda.sh \
     && /root/miniconda3/bin/conda init
 
-RUN /root/miniconda3/bin/conda install mamba -c conda-forge --force-reinstall -y
+# Install mamba
+RUN CONDA_PLUGINS_AUTO_ACCEPT_TOS=yes /root/miniconda3/bin/conda install mamba -c conda-forge --force-reinstall -y
 
 # Add conda to path
 ENV PATH="/root/miniconda3/bin:${PATH}"
