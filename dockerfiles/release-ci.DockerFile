@@ -1,6 +1,8 @@
-FROM quay.io/pypa/manylinux_2_28_x86_64:latest
+FROM almalinux:8
 
-RUN yum install -y \
+RUN yum install -y epel-release \
+    && yum config-manager --set-enabled powertools \
+    && yum install -y \
     git vim-common wget unzip which java-11-openjdk-devel patch \
     libtool autoconf make ninja-build ca-certificates libarchive \
     && yum clean all
