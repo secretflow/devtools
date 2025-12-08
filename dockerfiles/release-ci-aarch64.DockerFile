@@ -15,7 +15,8 @@ RUN yum install -y \
     && yum clean all
 
 # install conda
-RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh" \
+ARG CONDA_VERSION="25.1.1-2"
+RUN curl -L -O "https://github.com/conda-forge/miniforge/releases/${CONDA_VERSION}/download/Miniforge3-$(uname)-$(uname -m).sh" \
     && bash Miniforge3-$(uname)-$(uname -m).sh -b \
     && rm -f Miniforge3-$(uname)-$(uname -m).sh \
     && /root/miniforge3/bin/conda init
