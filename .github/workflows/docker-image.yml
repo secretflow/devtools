@@ -8,7 +8,7 @@ jobs:
     steps:
     - uses: actions/checkout@v5
     - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
+      uses: docker/setup-qemu-action@v4
       with:
         image: tonistiigi/binfmt:qemu-v7.0.0-28
     - name: Login to Dockerhub
